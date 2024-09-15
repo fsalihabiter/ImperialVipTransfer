@@ -280,7 +280,6 @@
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
-    <Content Include="Views\htmls\about.html" />
     <Content Include="Content\assets\css\main.css" />
     <Content Include="Content\assets\img\about.jpg" />
     <Content Include="Content\assets\img\apple-touch-icon.png" />
@@ -367,9 +366,7 @@
     <Content Include="Content\assets\vendor\purecounter\purecounter_vanilla.js" />
     <Content Include="Content\assets\vendor\swiper\swiper-bundle.min.css" />
     <Content Include="Content\assets\vendor\swiper\swiper-bundle.min.js" />
-    <Content Include="Views\htmls\contact.html" />
     <Content Include="Content\favicon.png" />
-    <Content Include="Views\htmls\get-a-quote.html" />
     <Content Include="Content\imgs\bg-img\1.jpg" />
     <Content Include="Content\imgs\bg-img\10.jpg" />
     <Content Include="Content\imgs\bg-img\11.jpg" />
@@ -457,13 +454,8 @@
     <Content Include="Content\imgs\kategori\slider-tr101.png" />
     <Content Include="Content\imgs\kategori\transfer-tr957.png" />
     <Content Include="Content\imgs\pages\vip-transfer-banner.jpg" />
-    <Content Include="Views\htmls\index.html" />
     <Content Include="Content\imgs\logo\logo.png" />
-    <Content Include="Views\htmls\pricing.html" />
     <Content Include="Content\Readme.txt" />
-    <Content Include="Views\htmls\service-details.html" />
-    <Content Include="Views\htmls\services.html" />
-    <Content Include="Views\htmls\starter-page.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\classy.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
