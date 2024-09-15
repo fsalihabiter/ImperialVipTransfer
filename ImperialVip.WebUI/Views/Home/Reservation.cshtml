@@ -1,0 +1,242 @@
+﻿
+@using ImperialVip.DataAccess.ViewModels
+@model RezervasyonViewModel
+
+@{
+    ViewBag.Title = "Reservation";
+    Layout = "~/Views/Shared/_LayoutEn.cshtml";
+
+    var today = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
+}
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.min.css" rel="stylesheet">
+<script src="~/Content/assets/js/rezervasyon-en.js"></script>
+
+<div class="page-title dark-background" data-aos="fade" style="background-image: url(../../Content/imgs/kategori/bronirovanie-ru836.jpg);">
+    <div class="container position-relative">
+        <h1>RESERVATION</h1>
+    </div>
+</div>
+<section class="rooms-area section-padding-100" id="Rezervasyon">
+    <div class="container-xxl">
+        <form id="rezervasyonForm" enctype="multipart/form-data" method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="flex-gap-30 col-12 col-lg-8">
+                    <div class="card">
+                        <div class="card-header bg-vip">
+                            <h3 class="m-0">Travel Information</h3>
+                        </div>
+                        <div class="card-body p-5">
+                            <div class="row gap-30" id="SeyahatBilgileri">
+                                <div id="GelisBilgileri" class="row seperator p-0 m-0">
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <label for="AlisNoktasi" class="form-label flex-gap-10"><i class="bi bi-luggage"></i>Pick-up Location</label>
+                                        @Html.DropDownListFor(model => model.AlisNoktasiId, Model.AlisNoktasi, new { @class = "form-control", required = "required" })
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <label for="VarisNoktasi" class="form-label flex-gap-10"><i class="bi bi-luggage-fill"></i>Drop-off Location</label>
+                                        @Html.DropDownListFor(model => model.VarisNoktasiId, Model.VarisNoktasi, new { @class = "form-control", required = "required" })
+                                    </div>
+
+                                    <div class="col-12 col-md-12 col-lg-4">
+                                        <label for="Arac" class="form-label flex-gap-10"><i class="bi bi-bus-front"></i>Vehicle</label>
+                                        @Html.DropDownListFor(model => model.AracId, Model.Arac, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-12 col-lg-12">
+                                    <label for="OtelAdi" class="form-label flex-gap-10"><i class="bi bi-building"></i>Hotel Name</label>
+                                    @Html.DropDownListFor(x => x.OtelAdi, new SelectList(ViewBag.Oteller, "Id", "OtelAdi"), "Search for your hotel ...", new { @class = "form-control", autocomplete = "off", required = "required" })
+                                </div>
+
+                                <div id="GelisBilgileri" class="row p-0 m-0 seperator">
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="GelisZamani" class="form-label flex-gap-10"><i class="bi bi-calendar3"></i>Arrival Datetime</label>
+                                            @Html.EditorFor(model => model.GelisZamani, new { htmlAttributes = new { @class = "form-control", type = "datetime-local", required = "required", min = today } })
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="UcusNumarasi" class="form-label flex-gap-10"><i class="bi bi-airplane"></i>Flight Number</label>
+                                            @Html.EditorFor(model => model.UcusNumarasi, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "AA1234", required = "required", min = today } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-lg-12">
+                                    <div class="form-switch">
+                                        <label class="form-check-label flex-gap-10" for="flexSwitchCheckChecked"><i class="bi bi-repeat"></i>I would like a return transfer.</label>
+                                        <input class="form-check-input" type="checkbox" role="checkbox" id="DonusTransferi">
+                                    </div>
+                                </div>
+
+                                <div id="DonusBilgileri" class="row p-0 m-0 seperator">
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="DonusTarihi" class="form-label flex-gap-10"><i class="bi bi-calendar3"></i>Return Datetime</label>
+                                            @Html.EditorFor(model => model.DonusZamani, new { htmlAttributes = new { @class = "form-control", type = "datetime-local", min = today } })
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="DonusUcusNumarasi" class="form-label flex-gap-10"><i class="bi bi-airplane"></i>Flight Number</label>
+                                            @Html.EditorFor(model => model.DonusUcusNumarasi, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "AA1234", min = today } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="KisiSayisiBilgileri" class="row p-0 m-0 seperator">
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="YetiskinSayisi" class="form-label flex-gap-10"><i class="bi bi-person-rolodex"></i>Number of Adults</label>
+                                            @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", @Value = 1, min = "1" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="CocukSayisi" class="form-label flex-gap-10"><i class="bi bi-person-video3"></i>Number of Children</label>
+                                            @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", @Value = 0, min = "0" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-12 col-lg-12" id="CocukKoltuguDiv">
+                                    <div class="form-group">
+                                        <label for="CocukKoltugu" class="form-label flex-gap-10"><i class="bi bi-info-circle"></i>I want a child seat.</label>
+                                        @Html.EditorFor(model => model.CocukKoltuguSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", min = "0", @Value = 0 } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header bg-vip">
+                            <h3 class="m-0">Personal Information</h3>
+                        </div>
+                        <div class="card-body p-5">
+                            <div class="row flex-gap-30 ">
+
+                                <div id="KisiBilgileri" class="row p-0 m-0 seperator">
+                                    <div class="col-12 col-md-12 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="AdSoyad" class="form-label flex-gap-10"><i class="bi bi-person-circle"></i>Name Surname</label>
+                                            @Html.EditorFor(model => model.AdSoyad, new { htmlAttributes = new { @class = "form-control", type = "text", required = "required" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="Telefon" class="form-label flex-gap-10"><i class="bi bi-telephone"></i>Phone</label>
+                                            @Html.EditorFor(model => model.Telefon, new { htmlAttributes = new { @class = "form-control", type = "phone", required = "required" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="Email" class="form-label flex-gap-10"><i class="bi bi-envelope"></i>Email Address</label>
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", required = "required" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="OzelNot" class="form-label flex-gap-10"><i class="bi bi-card-text"></i>Special Note</label>
+                                        @Html.TextAreaFor(model => model.OzelNot, 10, 30, new { htmlAttributes = new { @class = "form-control", type = "text", rows = "5", required = "required" } })
+                                    </div>
+                                </div>
+                                <div class="m-0 p-0 row" id="YetiskinBilgileri">
+                                    <div class="mb-3">
+                                        <h3>Other Person Information</h3>
+                                    </div>
+                                </div>
+                                <div class="m-0 p-0 row" id="CocukBilgileriDiv">
+                                    <div class="mb-3">
+                                        <h3>Children's Information</h3>
+                                    </div>
+                                    <div id="CocukBilgileri"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-gap-30 col-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-header bg-success">
+                            <h3 class="text-white m-0">Transfer Details</h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <table class="table">
+                                <tr>
+                                    <th style="width: 150px;">
+                                        Pick-up Location
+                                        <span>:</span>
+                                    </th>
+                                    <td id="AlisNoktasiIdYaz"></td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 150px;">
+                                        Drop-off Location
+                                        <span>:</span>
+                                    </th>
+                                    <td id="VarisNoktasiIdYaz"></td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 150px;">
+                                        Vehicle
+                                        <span>:</span>
+                                    </th>
+                                    <td id="AracIdYaz"></td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 150px;">
+                                        Price
+                                        <span>:</span>
+                                    </th>
+                                    <td><strong style="font-size: 1.5rem;" id="FiyatYaz"></strong></td>
+                                </tr>
+                                @*<tr>
+                                        <th style="width: 150px;">
+                                            Otel Adı
+                                            <span>:</span>
+                                        </th>
+                                        <td id="OtelAdiYaz"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Geliş Zamanı
+                                            <span>:</span>
+                                        </th>
+                                        <td id="GelisZamaniYaz"></td>
+                                    </tr>*@
+                            </table>
+                            <div class="col-12 col-md-12 col-lg-12 pt-4" style="text-align: end;">
+                                <button class="btn btn-success p-3" id="rezervasyonYap" type="submit">Rezervasyon Yap</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script src="~/Content/assets/js/tom-select.complete-en.min.js"></script>
+<script>
+    var settings = {
+        create: true,
+        sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    };
+    new TomSelect('#OtelAdi', settings);
+</script>
+
+
+
+
+

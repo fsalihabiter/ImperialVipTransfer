@@ -1,0 +1,118 @@
+﻿@model List<ImperialVip.DataAccess.ViewModels.IcerikViewModel>
+
+@{
+    ViewBag.Title = "Slider";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="slider-content">
+    <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 card-baslik">
+                <h6 class="text-white text-capitalize ps-3">Slider Resimleri</h6>
+                <div class="gap-20">
+                    <a href="#" class="btn btn-primary text-sm p-15 m-0" data-bs-toggle="modal" data-bs-target="#resimEkleModal" data-bs-whatever="mesaj"> SLİDER EKLE </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-5">
+            <div class="container slider-content">
+                <div class="row slider-row">
+                    @foreach (var item in ViewBag.resimler)
+                    {
+                        <div class="slider-resim">
+                            <a href="#" class="silButton" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#resimSilModal" onclick="setResimId('@item.Id')">X</a>
+                            <img src="~/Content/imgs/@item.ResimUrl" alt="@item.IcerikBaslik" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @foreach (var item in Model)
+    {
+        using (Html.BeginForm("SliderGuncelle", "Admin", new { id = item.Id, baslik = item.IcerikBaslik, detay = item.IcerikDetay }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", @class = "form p-0 m-0" }))
+        {
+            @Html.HiddenFor(model => item.Id);
+
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">@item.DilAdi</h6>
+                    </div>
+                </div>
+                <div class="card-body p-5">
+                    <div class="container slider-content">
+                        <div class="row slider-row">
+                            <div class="slider-baslik col-12 col-md-12 col-lg-12">
+                                <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Slider Başlığı :</label>
+                                    @Html.EditorFor(model => item.IcerikBaslik, @item.IcerikBaslik, new { htmlAttributes = new { @class = "form-control", type = "text", required = "required" } })
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Slider İçeriği :</label>
+                                    @Html.TextAreaFor(model => item.IcerikDetay, 3, 5, new { @class = "form-control", type = "text", required = "required" })
+                                </div>
+                                <div class="text-end">
+                                    <button type="submit" data-id="@item.Id" class="btn btn-success p-15">GÜNCELLE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
+</div>
+
+
+@{Html.RenderAction("SliderEkleModal", "Admin");}
+
+<div class="col-md-4">
+    <div class="modal fade" id="resimSilModal" tabindex="-1" role="dialog" aria-labelledby="resimSilModal" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Slider Sil</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="text-gradient text-danger mt-4">Seçtiğiniz Slider silinmek üzere !</h4>
+                        <p>Sliderı silmek istiyor musunuz?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="resimSilButton" onclick="deleteResim()">SİL</button>
+                    <button type="button" class="btn btn-secondary text-white ml-auto" data-bs-dismiss="modal" onclick="sliderGuncelle">iPTAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function setResimId(resimId) {
+        // "SİL" butonunda ID'yi saklayacağız
+        var silButton = document.getElementById("resimSilButton");
+        silButton.setAttribute("data-resim-id", resimId);
+    }
+
+    function deleteResim() {
+        var silButton = document.getElementById("resimSilButton");
+        var resimId = silButton.getAttribute("data-resim-id");
+
+        // ID'yi kullanarak silme işlemini başlatabilirsiniz
+        var url = '@Url.Action("SliderSil", "Admin")' + '?id=' + resimId;
+        window.location.href = url;
+    }
+
+    function sliderGuncelle(event) {
+        var baslik = document.getElementById("IcerikBaslik");
+        var detay = document.getElementById("IcerikDetay");
+        console.log();
+    }
+</script>

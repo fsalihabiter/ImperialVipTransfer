@@ -1,0 +1,27 @@
+﻿
+
+@model ImperialVip.DataAccess.Entities.BizUlasinMail
+
+<div class="modal fade" id="bizeUlasinYanitModal" tabindex="-1" aria-labelledby="bizeUlasinYanitModal" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h1 class="modal-title text-white fs-5 p-3" id="bizeUlasinYanitModal">Mesaj Gönder</h1>
+                <button type="button" class="btn-close text-white-50" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                @using (Html.BeginForm("BizeUlasinYanitGönder", "Admin", new { id = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
+                {
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Mesaj :</label>
+                        @Html.TextAreaFor(model => model.Mesaj, 10, 30, new { @class = "form-control", type = "text", required = "required" })
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="submit" class="btn btn-outline-success">Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>

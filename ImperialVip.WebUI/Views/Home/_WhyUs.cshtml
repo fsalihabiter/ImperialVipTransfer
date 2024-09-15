@@ -1,0 +1,30 @@
+﻿
+@model List<ImperialVip.DataAccess.Entities.Icerik>
+
+<section id="WhyUs" class="call-to-action section dark-background">
+    <img src="~/Content/imgs/@ViewBag.kategori.KategoriResimUrl" alt="">
+
+    <div class="container section-title" data-aos="fade-up">
+        <span>WHY SHOULD YOU CHOOSE US?<br></span>
+        <h2>WHY SHOULD YOU CHOOSE US?</h2>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row call-to-action-text">
+
+                @foreach (var item in Model)
+                {
+                    <!-- Single Service Area -->
+                    <div class="col-12 col-sm-12 col-lg-4 text-center">
+                        <div class="call-to-action-text-column" data-wow-delay="100ms">
+                            <img src="~/Content/imgs/@item.ResimUrl" />
+                            <h4>@item.IcerikBaslik</h4>
+                            <p>@item.IcerikDetay</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

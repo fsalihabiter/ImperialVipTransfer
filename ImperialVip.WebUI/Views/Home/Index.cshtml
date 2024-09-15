@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_LayoutEn.cshtml";
+}
+
+<script src="~/Content/assets/js/mailEn.js"></script>
+
+@{
+    Html.RenderAction("Slider", "Home");
+
+    Html.RenderAction("Regions", "Home");
+
+    Html.RenderAction("OurServices", "Home");
+
+    Html.RenderAction("AboutUs", "Home");
+
+    Html.RenderAction("WhyUs", "Home");
+
+    Html.RenderAction("ContactUs", "Home");
+
+    Html.RenderAction("Comments", "Home");
+
+    Html.RenderAction("Contact", "Home");
+
+    Html.RenderAction("Faq", "Home");
+}

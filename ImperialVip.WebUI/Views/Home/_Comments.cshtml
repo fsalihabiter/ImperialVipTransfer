@@ -1,0 +1,95 @@
+﻿
+@model List<ImperialVip.DataAccess.Entities.Yorum>
+
+<section id="Comments" class="testimonials section dark-background">
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="swiper init-swiper">
+            <script type="application/json" class="swiper-config">
+                {
+                  "loop": true,
+                  "speed": 600,
+                  "autoplay": {
+                    "delay": 5000
+                  },
+                  "slidesPerView": "auto",
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  }
+                }
+            </script>
+            <div class="swiper-wrapper">
+                @if (Model.Count > 0)
+                {
+                    foreach (var yorum in Model)
+                    {
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                @if (yorum.AdSoyad != null && !yorum.AdSoyad.IsEmpty())
+                                {
+                                    <h3>@yorum.AdSoyad</h3>
+                                }
+                                <div class="stars">
+                                    @for (int i = 0; i < yorum.MemnuniyetOyu; i++)
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    @for (int i = 0; i < 5 - yorum.MemnuniyetOyu; i++)
+                                    {
+                                        <i class="bi bi-star"></i>
+                                    }
+                                </div>
+                                <p>
+                                    <i class="bi bi-quote quote-icon-left"></i>
+                                    <span>@yorum.YorumDetay</span>
+                                    <i class="bi bi-quote quote-icon-right"></i>
+                                </p>
+                                <p>
+                                    <span>@yorum.YorumTarihi.ToShortDateString()</span>
+                                </p>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="row gy-4 contact-content">
+            <div class="col-lg-8">
+                <h4 class="pb-5 pt-3 text-2xl text-warning text-center">Share Your Satisfaction With Us</h4>
+                <form id="commentUs" method="post" data-aos="fade-up" data-aos-delay="200">
+                    <div class="row gy-4">
+
+                        <div class="col-md-12">
+                            <label for="AdSoyad" class="form-label">Name Surname : </label>
+                            <input type="text" class="form-control" name="CommentAdSoyad" placeholder="Name Surname" required />
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="MemnuniyetOyu" class="form-label">Satisfaction Score : </label>
+                            <input type="number" class="form-control" name="CommentMemnuniyetOyu" placeholder="Satisfaction Score" max="5" min="1" value="5" required />
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="Yorum" class="form-label">Your comment : </label>
+                            <textarea name="CommentYorum" class="form-control" placeholder="Write your comment..." rows="5" required></textarea>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-rezervasyon form-control" type="submit">WRITE A COMMENT</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div><!-- End Contact Form -->
+        </div>
+    </div>
+</section>

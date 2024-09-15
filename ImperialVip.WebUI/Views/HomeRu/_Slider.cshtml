@@ -1,0 +1,71 @@
+﻿
+
+@model ImperialVip.WebUI.Models.SliderRezervDTO
+
+<!-- ##### Hero ##### -->
+<section id="Home" class="hero section dark-background p-0">
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (var item in @ViewBag.images)
+            {
+                <div class="carousel-item active">
+                    <img src="~/Content/imgs/@item.ResimUrl" class="d-block w-100 h-100" alt="...">
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div class="container position-absolute rezervasyonContainer">
+        <div class="row gy-4 form-content">
+            <div class="col-lg-12 order-2 order-lg-1 form-content">
+                <div class="row form-text">
+                    <h2 data-aos="fade-up">@ViewBag.slider.IcerikBaslik</h2>
+                    <p data-aos="fade-up" data-aos-delay="100">@ViewBag.slider.IcerikDetay</p>
+                </div>
+
+                <form action="@Url.Action("Reservation", "HomeRu")" class="form-rezervasyon" data-aos="fade-up" data-aos-delay="200">
+
+                    <div class="container p-0">
+                        <div class="row rezervasyon-bar">
+                            <!-- Form Group -->
+                            <div class="form-floating form-group">
+                                @Html.DropDownListFor(model => model.AlisNoktasiId, Model.AlisNoktasi, "Выберите регион", new { @class = "form-control", required = "required" })
+                                <label for="AlisNoktasi">Место получения</label>
+                            </div>
+
+                            <!-- Form Group -->
+                            <div class="form-floating form-group">
+                                @Html.DropDownListFor(model => model.VarisNoktasiId, Model.VarisNoktasi, "Выберите регион", new { @class = "form-control", required = "required" })
+                                <label for="VarisNoktasi">Место назначения</label>
+                            </div>
+
+                            <!-- Form Group -->
+                            <div class="form-floating form-group">
+                                @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", min = "1", @Value = 1 } })
+                                <label for="YetiskinSayisi">Количество взрослых</label>
+                            </div>
+
+                            <!-- Form Group -->
+                            <div class="form-floating form-group">
+                                @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", min = "0", @Value = 0 } })
+                                <label for="CocukSayisi">Количество детей</label>
+                            </div>
+
+                            <!-- Button -->
+                            <button class="btn btn-rezervasyon form-control" type="submit">Создать бронирование</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Content/assets/js/sliderrezerv-ru.js"></script>

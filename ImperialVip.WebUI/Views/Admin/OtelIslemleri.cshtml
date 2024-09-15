@@ -1,0 +1,116 @@
+﻿@model List<ImperialVip.DataAccess.Entities.Otel>
+@{
+    ViewBag.Title = "OtelIslemleri";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/2.1.5/css/dataTables.bootstrap5.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.bootstrap5.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/staterestore/1.4.1/css/stateRestore.bootstrap5.css" rel="stylesheet" />
+
+<div class="card my-4">
+    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 card-baslik">
+            <h6 class="text-white text-capitalize ps-3">Otel İşlemleri</h6>
+            <div class="gap-20">
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#otelEkleModal" data-bs-whatever="mesaj"> Otel Ekle </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-5">
+        <div class="p-0">
+            <table id="otel" class="table table-striped table-responsive align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-center font-weight-bolder opacity-7">No</th>
+                        <th class="text-center font-weight-bolder opacity-7">Otel Adı</th>
+                        <th class="text-center text-secondary opacity-7"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <p class="align-middle text-center text-sm mb-0">@item.Id</p>
+                            </td>
+                            <td>
+                                <p class="align-middle text-center text-sm mb-0">@item.OtelAdi</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                @*<a href="@Url.Action("OtelDuzenleModal", "Admin", new { id = item.Id })" class="btn btn-warning font-weight-bold" data-bs-toggle="modal" data-bs-target="#otelDuzenleModal" data-bs-whatever="duzenle" data-original-title="Edit">
+                                        Düzenle
+                                    </a>*@
+                                <a href="javascript:;" class="btn btn-danger font-weight-bold" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#otelSilModal" onclick="setOtelId('@item.Id')"> Sil </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-center font-weight-bolder opacity-7 ps-2"></th>
+                        <th class="text-center font-weight-bolder opacity-7">Otel Adı</th>
+                        <th class="text-center font-weight-bolder opacity-7 ps-2"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-4">
+    <div class="modal fade" id="otelSilModal" tabindex="-1" role="dialog" aria-labelledby="otelSilModal" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Otel Sil</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="text-gradient text-danger mt-4">Seçtiğiniz otel silinmek üzere !</h4>
+                        <p>Oteli silmek istiyor musunuz?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="otelSilButton" onclick="deleteOtel()">SİL</button>
+                    <button type="button" class="btn btn-secondary text-white ml-auto" data-bs-dismiss="modal">iPTAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{Html.RenderAction("OtelEkleModal", "Admin");}
+
+<script type="text/javascript">
+    function setOtelId(otelId) {
+        // Modal'da saklayacağımız alanı seçiyoruz
+        var silButton = document.getElementById("otelSilButton");
+        silButton.setAttribute("data-otel-id", otelId);
+    };
+
+    function deleteOtel() {
+        var silButton = document.getElementById("otelSilButton");
+        var otelId = silButton.getAttribute("data-otel-id");
+
+        // ID'yi kullanarak silme işlemini başlatabilirsiniz
+        var url = '@Url.Action("OtelSil", "Admin")' + '?id=' + otelId;
+        window.location.href = url;
+    };
+</script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.js"></script>
+<script src="https://cdn.datatables.net/staterestore/1.4.1/js/dataTables.stateRestore.js"></script>
+<script src="https://cdn.datatables.net/staterestore/1.4.1/js/stateRestore.bootstrap5.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.bootstrap5.js"></script>
+<script src="~/Content/adminAssets/js/datatable.js"></script>

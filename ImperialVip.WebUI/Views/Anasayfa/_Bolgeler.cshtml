@@ -1,0 +1,38 @@
+﻿
+@model List<ImperialVip.DataAccess.ViewModels.BolgeDetayViewModel>
+
+
+<!-- ##### Bölgeler ##### -->
+<section id="Bolgeler" class="services section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <span>BÖLGELER<br></span>
+        <h2>BÖLGELER</h2>
+    </div>
+    <!-- End Section Title -->
+
+    <div class="container">
+        <div class="row gy-4">
+            <!-- Start Card Item -->
+            @foreach (var bolge in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card" style="background-image: url(../../Content/imgs/@bolge.ResimUrl);">
+                        <div class="card-text">
+                            <h3 class="text-center"><a href="#" class="text-white">@bolge.BolgeAdi</a></h3>
+                            <p class="text-white text-center">@bolge.BolgeAdi <i class="bi bi-arrow-right"></i> Antalya Hava Limanı</p>
+                            <p class="text-white text-center price-text"><span class="price">@bolge.Fiyat €</span>&nbsp; ile başlayan fiyatlarla</p>
+                            <a class="btn-rezervasyon" href="@Url.Action("Rezervasyon", "Anasayfa")">Rezervasyon Yap</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            <!-- End Card Item -->
+            <div class="col-12 p-5 text-center" data-aos="fade-up" data-aos-delay="300">
+                <a class="btn-rezervasyon" href="@Url.Action("TumBolgeler", "Anasayfa")"><i class="bi bi-chevron-double-right"></i> Tüm Bölgeleri Görüntüle <i class="bi bi-chevron-double-left"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ##### Bölgeler ##### -->

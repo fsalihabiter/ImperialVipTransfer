@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Anasayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Content/assets/js/mail.js"></script>
+
+@{
+    Html.RenderAction("Slider", "Anasayfa");
+
+    Html.RenderAction("Bolgeler", "Anasayfa");
+
+    Html.RenderAction("Hizmetlerimiz", "Anasayfa");
+
+    Html.RenderAction("Hakkimizda", "Anasayfa");
+
+    Html.RenderAction("NedenBiz", "Anasayfa");
+
+    Html.RenderAction("BizeUlasin", "Anasayfa");
+
+    Html.RenderAction("Yorumlar", "Anasayfa");
+
+    Html.RenderAction("Iletisim", "Anasayfa");
+
+    Html.RenderAction("SikcaSorulanSorular", "Anasayfa");
+}
+

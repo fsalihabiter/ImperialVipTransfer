@@ -1,0 +1,55 @@
+﻿
+
+@model ImperialVip.DataAccess.Entities.Icerik
+
+
+<footer id="footer" class="footer dark-background">
+
+    <div class="container footer-top">
+        <div class="row gy-4">
+            <div class="col-lg-5 col-md-12 footer-about">
+                <a href="@Url.Action("Index", "HomeDe")" class="logo d-flex align-items-center">
+                    <img src="~/Content/imgs/@Model.ResimUrl" alt="@Model.IcerikBaslik">
+                </a>
+
+                <p>@Model.IcerikDetay</p>
+            </div>
+
+            <div class="col-lg-2 col-sm-6  footer-links">
+                <h4>SCHNELLMENÜ</h4>
+                <ul>
+                    <li><a href="@Url.Action("Index", "HomeDe")">Home</a></li>
+                    <li><a href="@Url.Action("AllRegions", "HomeDe")">Alle Regionen</a></li>
+                    <li><a href="@Url.Action("Gallery", "HomeDe")">Galerie</a></li>
+                    <li><a href="@Url.Action("Index", "HomeDe")#Faq">Häufig gestellte Fragen</a></li>
+                    <li><a href="@Url.Action("Index", "HomeDe")#ContactUs">Emailen Sie Uns</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-sm-6 footer-links">
+                <h4>BELIEBTE REGIONEN</h4>
+                <ul>
+                    <li><a href="#">Alanya</a></li>
+                    <li><a href="#">Belek</a></li>
+                    <li><a href="#">İncekum</a></li>
+                    <li><a href="#">Kemer</a></li>
+                    <li><a href="#">Manavgat</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-12 footer-contact text-center">
+                <h4>KONTAKT</h4>
+                @foreach (var item in ViewBag.iletisim)
+                {
+                    <p class="mt-4"><strong>@item.IcerikBaslik : </strong> <span> @item.IcerikDetay </span></p>
+                }
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">2024</strong> <a href="@Url.Action("Login", "Anasayfa")">Alle Rechte vorbehalten.</a></p>
+    </div>
+
+</footer>

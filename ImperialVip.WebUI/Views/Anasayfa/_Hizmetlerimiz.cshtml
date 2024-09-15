@@ -1,0 +1,29 @@
+﻿
+@model List<ImperialVip.DataAccess.Entities.Icerik>
+
+<!-- ##### Hizmetlerimiz ##### -->
+<section id="Hizmetlerimiz" class="call-to-action section dark-background">
+    <img src="~/Content/imgs/@ViewBag.kategori.KategoriResimUrl" alt="">
+
+    <div class="container section-title" data-aos="fade-up">
+        <span>HİZMETLERİMİZ<br></span>
+        <h2>HİZMETLERİMİZ</h2>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-xl-10">
+                <div class="text-center">
+                    @foreach (var item in Model)
+                    {
+                        <p>
+                            @item.IcerikDetay
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- ##### Hizmetlerimiz ##### -->

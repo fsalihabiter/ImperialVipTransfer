@@ -1,0 +1,25 @@
+﻿
+@model List<ImperialVip.DataAccess.Entities.Icerik>
+
+<section id="AboutUs" class="about section">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-6 position-relative align-self-start order-lg-last order-first" data-aos="fade-up" data-aos-delay="200">
+                <img src="~/Content/imgs/@ViewBag.kategori.KategoriResimUrl" class="img-fluid" alt="">
+            </div>
+
+            <div class="col-lg-6 content order-last  order-lg-first" data-aos="fade-up" data-aos-delay="100">
+                <div class="container section-title mb-0" data-aos="fade-up">
+                    <span>ÜBER UNS<br></span>
+                    <h2>ÜBER UNS</h2>
+                </div>
+                @foreach (var item in Model)
+                {
+                    <p class="text-center">
+                        @item.IcerikDetay
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+</section>

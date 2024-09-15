@@ -1,0 +1,30 @@
+﻿
+
+@model List<ImperialVip.DataAccess.Entities.Icerik>
+
+<section id="Contact" class="contact section">
+    <div class="container section-title" data-aos="fade-up">
+        <span>КОНТАКТ<br></span>
+        <h2>КОНТАКТ</h2>
+    </div>
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+            <div class="col-lg-7" data-aos="fade-up" data-aos-delay="200">
+                <iframe style="border:0; width: 100%; height: 270px;" src="@ViewBag.kategori.KategoriResimUrl" frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="col-lg-5 contact-utils" data-aos="fade-up" data-aos-delay="200">
+                @foreach (var item in Model)
+                {
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                        <i class="@item.ResimUrl flex-shrink-0"></i>
+                        <div>
+                            <h3>@item.IcerikBaslik</h3>
+                            <p>@item.IcerikDetay</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

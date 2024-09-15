@@ -1,0 +1,75 @@
+﻿
+@model List<ImperialVip.DataAccess.Entities.Yorum>
+
+@{
+    ViewBag.Title = "YorumIslemleri";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card my-4">
+    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">Randevu İşlemleri</h6>
+        </div>
+    </div>
+    <div class="card-body p-5">
+        <div class="table-responsive p-0">
+            <table class="table table-striped table-hover table-responsive table-secondary align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-center font-weight-bolder opacity-7">Ad Soyad</th>
+                        <th class="text-center font-weight-bolder opacity-7 ps-2">Memnuniyet Derecesi</th>
+                        <th class="text-center font-weight-bolder opacity-7">Yorum</th>
+                        <th class="text-center font-weight-bolder opacity-7">Yorum Tarihi</th>
+                        <th class="text-center font-weight-bolder opacity-7">Onay Durumu</th>
+                        <th class="text-center text-secondary opacity-7"></th>
+                        <th class="text-center text-secondary opacity-7"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            <p class="align-middle text-center text-sm mb-0">@item.AdSoyad</p>
+                        </td>
+                        <td>
+                            <p class="align-middle text-center text-sm mb-0">@item.MemnuniyetOyu</p>
+                        </td>
+                        <td class="align-middle text-center text-sm yorum">
+                            <p class="align-middle text-center text-sm mb-0">@item.YorumDetay</p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="align-middle text-center text-sm mb-0">@item.YorumTarihi.ToShortDateString()</p>
+                        </td>
+                        @if (item.OnayDurumu)
+                        {
+                            <td class="align-middle text-center text-sm">
+                                <p class="align-middle text-center text-sm mb-0">Onaylandı</p>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="align-middle text-center text-sm">
+                                <p class="align-middle text-center text-sm mb-0">Onay Bekliyor</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <a href="@Url.Action("YorumOnayla", "Admin", new { id = item.Id })" class="btn btn-success text-capitalize font-weight-bold" data-toggle="tooltip" data-original-title="Edit">
+                                    Onayla
+                                </a>
+                            </td>
+                        }
+                        <td class="align-middle text-center text-sm">
+                            <a href="@Url.Action("YorumSil", "Admin", new { id = item.Id })" class="btn btn-danger font-weight-bold" data-toggle="tooltip" data-original-title="Sil">
+                                Sil
+                            </a>
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

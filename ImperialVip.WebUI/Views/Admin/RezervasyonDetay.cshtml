@@ -1,0 +1,131 @@
+﻿@model ImperialVip.DataAccess.ViewModels.RezervasyonModel
+
+@{
+    ViewBag.Title = "Rezervasyon Detay";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">Rezervasyon İşlemleri</h6>
+                    </div>
+                </div>
+                <div class="card-body p-5">
+                    <div class="p-0">
+                        <table class="table table-striped table-responsive table-secondary align-items-center mb-0">
+                            <tbody>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Alış Noktası</th>
+                                    <td>
+                                        <p class="align-middle text-left text-sm mb-0">@Model.AlisNoktasiAdi</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Varış Noktası</th>
+                                    <td>
+                                        <p class="align-middle text-left text-sm mb-0">@Model.VarisNoktasiAdi</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Araç Türü</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.AracAdi</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Otel Adı</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.OtelAdi</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Geliş Zamanı</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.GelisTarihi.ToShortDateString() - @Model.GelisTarihi.ToShortTimeString()</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Uçuş Numarası</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.GelisUcusNumarasi</p>
+                                    </td>
+                                </tr>
+                                @if (Model.DonusTarihi != null)
+                                {
+                                    <tr>
+                                        <th class="text-left font-weight-bolder opacity-7">Geliş Zamanı</th>
+                                        <td class="align-middle text-left text-sm">
+                                            <p class="align-middle text-left text-sm mb-0">@Model.DonusTarihi.ToString()</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left font-weight-bolder opacity-7">Uçuş Numarası</th>
+                                        <td class="align-middle text-left text-sm">
+                                            <p class="align-middle text-left text-sm mb-0">@Model.DonusUcusNumarasi</p>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Kişi Sayısı</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.KisiSayisi</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Katılım Sağlayan Kişi İsimleri</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@ViewBag.kisiIsimleri</p>
+                                    </td>
+                                </tr>
+                                @if (Model.CocukKoltuguSayisi > 0)
+                                {
+                                    <tr>
+                                        <th class="text-left font-weight-bolder opacity-7">Çocuk Koltuğu Sayısı</th>
+                                        <td class="align-middle text-left text-sm">
+                                            <p class="align-middle text-left text-sm mb-0">@Model.CocukKoltuguSayisi</p>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Ad Soyad</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.AdSoyad</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Telefon Numarası</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.Telefon</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">E-posta Adresi</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.Email</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Özel Not</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.OzelNot</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        @if (!Model.RezervasyonOnay)
+                        {
+                            <div class="col-12 col-md-12 col-lg-12 border-top pt-4" style="text-align: end;">
+                                <a href="@Url.Action("RezervasyonOnay", "Admin", new { id = Model.Id })" class="btn btn-success p-15" type="submit">Rezervasyon Onayla</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

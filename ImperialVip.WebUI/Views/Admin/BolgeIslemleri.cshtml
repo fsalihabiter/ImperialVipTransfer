@@ -1,0 +1,137 @@
+﻿@model List<ImperialVip.DataAccess.ViewModels.BolgeDetayViewModel>
+@{
+    ViewBag.Title = "Bölge İşlemleri";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/2.1.5/css/dataTables.bootstrap5.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.bootstrap5.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/staterestore/1.4.1/css/stateRestore.bootstrap5.css" rel="stylesheet" />
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 card-baslik">
+                        <h6 class="text-white text-capitalize ps-3">Bölge İşlemleri</h6>
+                        <div class="gap-20">
+                            <a href="#" class="btn btn-warning p-15" data-bs-toggle="modal" data-bs-target="#bolgeFiyatlandirModal" data-bs-whatever="mesaj"> Bölge Fiyatlandır </a>
+                            <a href="#" class="btn btn-success p-15" data-bs-toggle="modal" data-bs-target="#bolgeEkleModal" data-bs-whatever="mesaj"> Bölge Ekle </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pb-5">
+                    <div class="table table-striped table-responsive table-hover p-0">
+                        <table id="bolgeFiyat" class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center font-weight-bolder opacity-7">Resim</th>
+                                    <th class="text-center font-weight-bolder opacity-7">Bölge Adı</th>
+                                    <th class="text-center font-weight-bolder opacity-7">Araç Türü</th>
+                                    <th class="text-center font-weight-bolder opacity-7">Fiyat</th>
+                                    <th class="text-center font-weight-bolder opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <p class="align-middle text-center text-sm mb-0">
+                                                <img src="~/Content/imgs/@item.ResimUrl" class="avatar avatar-lg border-radius-lg" alt="@item.BolgeAdi">
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="align-middle text-center text-sm mb-0">@item.BolgeAdi</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm mb-0">
+                                            <span class="align-middle text-center text-sm mb-0">@item.AracAdi</span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm mb-0">
+                                            <span class="align-middle text-center text-lg text-bold mb-0">@item.Fiyat €</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="javascript:;" class="btn btn-danger align-middle text-center text-sm mb-0" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#bolgeSilModal" onclick="setBolgeFiyatId('@item.Id')">
+                                                Sil
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="text-center font-weight-bolder opacity-7">Resim</th>
+                                    <th class="text-center font-weight-bolder opacity-7">Bölge Adı</th>
+                                    <th class="text-center font-weight-bolder opacity-7">Araç Türü</th>
+                                    <th class="text-center font-weight-bolder opacity-7">Fiyat</th>
+                                    <th class="text-center font-weight-bolder opacity-7"></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-4">
+    <div class="modal fade" id="bolgeSilModal" tabindex="-1" role="dialog" aria-labelledby="bolgeSilModal" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Bölge Fiyatı Sil</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="text-gradient text-danger mt-4">Seçtiğiniz bölge fiyatlandırmasını silinmek üzere !</h4>
+                        <p>Fiyatlandırmayı silmek istiyor musunuz?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="bolgeSilButton" onclick="deleteBolge()">SİL</button>
+                    <button type="button" class="btn btn-secondary text-white ml-auto" data-bs-dismiss="modal">iPTAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{Html.RenderAction("BolgeEkleModal", "Admin");}
+@{Html.RenderAction("BolgeFiyatlandir", "Admin");}
+
+<script type="text/javascript">
+    function setBolgeFiyatId(bolgeId) {
+        // Modal'da saklayacağımız alanı seçiyoruz
+        var silButton = document.getElementById("bolgeSilButton");
+        silButton.setAttribute("data-bolge-id", bolgeId);
+    };
+
+    function deleteBolge() {
+        var silButton = document.getElementById("bolgeSilButton");
+        var bolgeId = silButton.getAttribute("data-bolge-id");
+
+        // ID'yi kullanarak silme işlemini başlatabilirsiniz
+        var url = '@Url.Action("BolgeFiyatSil", "Admin")' + '?id=' + bolgeId;
+        window.location.href = url;
+    };
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.js"></script>
+<script src="https://cdn.datatables.net/staterestore/1.4.1/js/dataTables.stateRestore.js"></script>
+<script src="https://cdn.datatables.net/staterestore/1.4.1/js/stateRestore.bootstrap5.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.bootstrap5.js"></script>
+<script src="~/Content/adminAssets/js/datatable.js"></script>

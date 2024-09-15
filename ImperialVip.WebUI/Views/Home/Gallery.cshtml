@@ -1,0 +1,46 @@
+﻿
+@model List<ImperialVip.DataAccess.Entities.Icerik>
+
+@{
+    ViewBag.Title = "Gallery";
+    Layout = "~/Views/Shared/_LayoutEn.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+
+<div class="page-title dark-background" data-aos="fade" style="background-image: url(../../Content/imgs/@ViewBag.kategori.KategoriResimUrl); ">
+    <div class="container position-relative">
+        <h1>GALLERY</h1>
+    </div>
+</div>
+
+<section class="elements-area">
+    <div class="lightbox-gallery section-padding-100">
+        <div class="container">
+            <div class="row photos">
+                @foreach (var item in Model)
+                {
+                    if (item.IcerikBaslik == "video")
+                    {
+                        <div class="photo">
+                            <video controls>
+                                <source src="~/Content/imgs/@item.ResimUrl" type="video/mp4">
+                            </video>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="~/Content/imgs/@item.ResimUrl" class="photo" data-lightbox="photos">
+                            <img class="img-fluid" src="~/Content/imgs/@item.ResimUrl">
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>

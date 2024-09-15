@@ -1,0 +1,38 @@
+﻿
+@model List<ImperialVip.DataAccess.ViewModels.BolgeDetayViewModel>
+
+
+@{
+    ViewBag.Title = "Все регионы";
+    Layout = "~/Views/Shared/_LayoutRu.cshtml";
+}
+
+
+<div class="page-title dark-background" data-aos="fade" style="background-image: url(../../Content/imgs/pages/antalya-tr140.png);">
+    <div class="container position-relative">
+        <h1>ВСЕ РЕГИОНЫ</h1>
+    </div>
+</div>
+
+<section id="Bolgeler" class="services section">
+    <div class="container">
+        <div class="row gy-4">
+            <!-- Start Card Item -->
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card" style="background-image: url(../../Content/imgs/@item.ResimUrl);">
+                        <div class="card-text">
+                            <h3 class="text-center"><span class="text-white">@item.BolgeAdi</span></h3>
+                            <p class="text-white text-center">@item.BolgeAdi <i class="bi bi-arrow-right"></i> Аэропорт Анталии</p>
+                            <p class="text-white text-center price-text">Цены от &nbsp;<span class="price">@item.Fiyat €</span></p>
+                            <a class="btn btn-rezervasyon form-control" href="@Url.Action("Reservation", "Home")">Создать бронирование</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            <!-- End Card Item -->
+        </div>
+    </div>
+</section>
+

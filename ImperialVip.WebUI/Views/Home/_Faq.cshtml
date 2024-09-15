@@ -1,0 +1,31 @@
+﻿
+@model List<ImperialVip.DataAccess.Entities.Icerik>
+
+<section id="Faq" class="faq section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <span>FAQ</span>
+        <h2>FAQ</h2>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="faq-container">
+                    @foreach (var item in Model)
+                    {
+                        <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                            <i class="faq-icon bi bi-question-circle"></i>
+                            <h3>@item.IcerikBaslik</h3>
+                            <div class="faq-content">
+                                <p>@item.IcerikDetay</p>
+                            </div>
+                            <i class="faq-toggle bi bi-chevron-right"></i>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

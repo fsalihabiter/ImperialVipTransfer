@@ -1,0 +1,97 @@
+﻿@model List<ImperialVip.DataAccess.Entities.Icerik>
+
+@{
+    ViewBag.Title = "Galeri";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+
+<div class="card my-4">
+    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 card-baslik">
+            <h6 class="text-white text-capitalize ps-3">Galeri İşlemleri</h6>
+            <div class="gap-20">
+                <a href="#" class="btn btn-primary text-sm" data-bs-toggle="modal" data-bs-target="#resimEkleModal" data-bs-whatever="mesaj"> RESİM EKLE </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-5">
+        <section class="elements-area">
+            <div class="lightbox-gallery section-padding-100">
+                <div class="container">
+                    <div class="photos">
+                        @foreach (var item in Model)
+                        {
+                            <div class="imageBox">
+                                <a href="#" class="silButton" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#resimSilModal" onclick="setResimId('@item.Id')">X</a>
+                                @if (item.IcerikBaslik == "video")
+                                {
+                                    <div class="photo">
+                                        <video controls>
+                                            <source src="~/Content/imgs/@item.ResimUrl" type="video/mp4">
+                                        </video>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <a href="~/Content/imgs/@item.ResimUrl" class="photo" data-lightbox="photos">
+                                        <img class="img-fluid" src="~/Content/imgs/@item.ResimUrl">
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+@{Html.RenderAction("ResimEkleModal", "Admin");}
+
+<div class="col-md-4">
+    <div class="modal fade" id="resimSilModal" tabindex="-1" role="dialog" aria-labelledby="resimSilModal" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Resim Sil</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="text-gradient text-danger mt-4">Seçtiğiniz resim silinmek üzere !</h4>
+                        <p>Resmi silmek istiyor musunuz?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="resimSilButton" onclick="deleteResim()">SİL</button>
+                    <button type="button" class="btn btn-secondary text-white ml-auto" data-bs-dismiss="modal">iPTAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function setResimId(resimId) {
+        // "SİL" butonunda ID'yi saklayacağız
+        var silButton = document.getElementById("resimSilButton");
+        silButton.setAttribute("data-resim-id", resimId);
+    }
+
+    function deleteResim() {
+    var silButton = document.getElementById("resimSilButton");
+    var resimId = silButton.getAttribute("data-resim-id");
+
+    // ID'yi kullanarak silme işlemini başlatabilirsiniz
+    var url = '@Url.Action("ResimSil", "Admin")' + '?id=' + resimId;
+    window.location.href = url;
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>

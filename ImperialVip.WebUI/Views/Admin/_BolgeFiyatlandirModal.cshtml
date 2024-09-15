@@ -1,0 +1,36 @@
+﻿
+@model ImperialVip.DataAccess.ViewModels.BolgeFiyatViewModel
+
+<div class="modal fade" id="bolgeFiyatlandirModal" tabindex="-1" aria-labelledby="bolgeFiyatlandirModal" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h1 class="modal-title text-white fs-5 p-3" id="bolgeFiyatlandirModal">Bölge Ekle</h1>
+                <button type="button" class="btn-close text-white-50" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @using (Html.BeginForm("BolgeFiyatlandir", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
+            {
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label for="Arac" class="form-label flex-gap-10"><i class="bi bi-bus-front"></i>Bölge</label>
+                        @Html.DropDownListFor(model => model.BolgeId, Model.Bolgeler, "Bölge Seçiniz", new { @class = "form-control", required = "required" })
+                    </div>
+                    <div class="mb-3">
+                        <label for="Arac" class="form-label flex-gap-10"><i class="bi bi-bus-front"></i>Araç Türü</label>
+                        @Html.DropDownListFor(model => model.AracId, Model.Araclar, "Araç Türü Seçiniz", new { @class = "form-control", required = "required" })
+                    </div>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Fiyat</label>
+                        @Html.EditorFor(model => model.Fiyat, new { htmlAttributes = new { @class = "form-control", type = "text", required = "required" } })
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success p-3">Fiyatlandır</button>
+                    <button type="button" class="btn btn-secondary p-3" data-bs-dismiss="modal">İptal</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

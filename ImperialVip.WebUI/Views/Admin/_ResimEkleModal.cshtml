@@ -1,0 +1,26 @@
+﻿
+
+<div class="modal fade" id="resimEkleModal" tabindex="-1" aria-labelledby="resimEkleModal" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h1 class="modal-title text-white fs-5 p-3" id="bolgeEkleModal">Resim Ekle</h1>
+                <button type="button" class="btn-close text-white-50" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @using (Html.BeginForm("ResimEkle", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
+            {
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Resim:</label>
+                        <input type="file" name="imgFile" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-outline-success">Ekle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

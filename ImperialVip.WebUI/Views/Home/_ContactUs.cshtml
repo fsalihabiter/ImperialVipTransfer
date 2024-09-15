@@ -1,0 +1,42 @@
+﻿
+@using ImperialVip.WebUI.Models
+@model BizeUlasinDTO
+<section id="ContactUs" class="contact section">
+
+    <div class="container section-title" data-aos="fade-up">
+        <span>CONTACT US<br></span>
+        <h2>CONTACT US</h2>
+    </div>
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4 contact-content">
+            <div class="col-lg-8">
+                <form id="emailUsEn" method="post" data-aos="fade-up" data-aos-delay="200">
+                    <div class="row gy-4">
+
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.AdSoyad, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "Name Surname", required = "required" } })
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Telefon, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "05553336655", required = "required" } })
+                        </div>
+
+                        <div class="col-md-6 ">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "abc@gmail.com", required = "required" } })
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.TextAreaFor(model => model.Mesaj, new { @class = "form-control", type = "text", rows = "6", placeholder = "Enter your message ...", required = "required" })
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-rezervasyon form-control" type="submit">SEND</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div><!-- End Contact Form -->
+        </div>
+    </div>
+</section>

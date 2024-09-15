@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Title -->
+    <title>@ViewBag.Title - Imperial VIP Transfer</title>
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link rel="icon" href="~/Content/favicon.png">
+    <link rel="apple-touch-icon" href="~/Content/favicon.png">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="~/Content/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="~/Content/assets/css/main.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/toastr.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+
+    <!-- ##### Header ##### -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center info-header">
+            <span><i class="bi bi-envelope-fill px-1"></i>info@transferimperial.com</span>
+            <span><i class="bi bi-telephone-fill px-1"></i>+90 555 666 99 88</span>
+            <a href="https://www.instagram.com/" target="_blank"><i class="bi bi-instagram px-1"></i>ImperialVipTransfer</a>
+        </div>
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+            @{ Html.RenderAction("Logo", "Home"); }
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home")">Home<br></a></li>
+                    <li><a href="@Url.Action("Index", "Home")#Regions">Regions</a></li>
+                    <li><a href="@Url.Action("Index", "Home")#OurServices">Our Services</a></li>
+                    <li><a href="@Url.Action("Index", "Home")#AboutUs">About Us</a></li>
+                    <li><a href="@Url.Action("Gallery", "Home")">Gallery</a></li>
+                    <li><a href="@Url.Action("Index", "Home")#Contact">Contact</a></li>
+                    <li class="dropdown" id="currentLanguage" aria-valuetext="en">
+                        <a href="#"><span><img src="~/Content/imgs/flags/en.jpg" alt="English" />English</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="@Url.Action("Index", "Home")"><span><img src="~/Content/imgs/flags/en.jpg" alt="English" />English</span></a></li>
+                            <li><a href="@Url.Action("Anasayfa", "Anasayfa")"><span><img src="~/Content/imgs/flags/tr.jpg" alt="Türkçe" />Türkçe</span></a></li>
+                            <li><a href="@Url.Action("Index", "HomeDe")"><span><img src="~/Content/imgs/flags/de.jpg" alt="Deutsch" />Deutsch</span></a></li>
+                            <li><a href="@Url.Action("Index", "HomeRu")"><span><img src="~/Content/imgs/flags/ru.jpg" alt="Русский" />Русский</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <a class="btn btn-rezervasyon" href="@Url.Action("Reservation", "Home")">Create Reservation</a>
+
+        </div>
+    </header>
+    <!-- ##### Header ##### -->
+
+    @RenderBody()
+
+
+    @{ Html.RenderAction("Footer", "Home"); }
+
+    <div class="whatsapp-button">
+        <a href="https://wa.me/905325807077" target="_blank">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+
+    <!-- ##### All Javascript Script ##### -->
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+    <script src="~/Content/assets/js/toastr.min.js"></script>
+    <!-- Vendor JS Files -->
+    <script src="~/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/assets/vendor/aos/aos.js"></script>
+    <script src="~/Content/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/Content/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/Content/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="~/Content/assets/js/main.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
