@@ -52,7 +52,8 @@ namespace ImperialVip.Business
                            DilKodu = r.DilKodu,
                            Fiyat = r.Fiyat,
                            OzelNot = r.OzelNot,
-                           RezervasyonOnay = r.RezervasyonOnay
+                           RezervasyonOnay = r.RezervasyonOnay,
+                           KayitTarihi = r.KayitTarihi
                        }).ToList();
 
             return rezervler;
@@ -89,7 +90,8 @@ namespace ImperialVip.Business
                             DilKodu = r.DilKodu,
                             Fiyat = r.Fiyat,
                             OzelNot = r.OzelNot,
-                            RezervasyonOnay = r.RezervasyonOnay
+                            RezervasyonOnay = r.RezervasyonOnay,
+                            KayitTarihi = r.KayitTarihi
                         }).FirstOrDefault();
 
             return bolgeler;

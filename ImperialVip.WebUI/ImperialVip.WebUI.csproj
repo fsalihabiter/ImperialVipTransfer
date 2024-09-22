@@ -269,6 +269,11 @@
     <Content Include="Content\assets\js\tom-select.complete-ru.min.js" />
     <Content Include="Content\assets\js\tom-select.complete.min.js" />
     <Content Include="Content\imgs\bg-img\bg-3.jpg" />
+    <Content Include="Content\imgs\galeri\image-1.jpeg" />
+    <Content Include="Content\imgs\galeri\image-2.jpeg" />
+    <Content Include="Content\imgs\galeri\image-3.jpeg" />
+    <Content Include="Content\imgs\galeri\image-4.jpeg" />
+    <Content Include="Content\imgs\galeri\image-5.jpeg" />
     <Content Include="Content\imgs\icons\excellence.png" />
     <Content Include="Content\imgs\icons\focus.png" />
     <Content Include="Content\imgs\icons\schedule.png" />
@@ -569,7 +574,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\imgs\bolgeler\" />
-    <Folder Include="Content\imgs\galeri\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\vendor\aos\aos.js.map" />

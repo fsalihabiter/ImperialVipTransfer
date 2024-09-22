@@ -40,9 +40,6 @@
                                 <p class="align-middle text-center text-sm mb-0">@item.OtelAdi</p>
                             </td>
                             <td class="align-middle text-center text-sm">
-                                @*<a href="@Url.Action("OtelDuzenleModal", "Admin", new { id = item.Id })" class="btn btn-warning font-weight-bold" data-bs-toggle="modal" data-bs-target="#otelDuzenleModal" data-bs-whatever="duzenle" data-original-title="Edit">
-                                        Düzenle
-                                    </a>*@
                                 <a href="javascript:;" class="btn btn-danger font-weight-bold" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#otelSilModal" onclick="setOtelId('@item.Id')"> Sil </a>
                             </td>
                         </tr>

@@ -19,6 +19,12 @@
                         <table class="table table-striped table-responsive table-secondary align-items-center mb-0">
                             <tbody>
                                 <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Kayıt Tarihi</th>
+                                    <td>
+                                        <p class="align-middle text-left text-sm mb-0">@Model.KayitTarihi.ToShortDateString()</p>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th class="text-left font-weight-bolder opacity-7">Alış Noktası</th>
                                     <td>
                                         <p class="align-middle text-left text-sm mb-0">@Model.AlisNoktasiAdi</p>
@@ -114,14 +120,23 @@
                                         <p class="align-middle text-left text-sm mb-0">@Model.OzelNot</p>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th class="text-left font-weight-bolder opacity-7">Fiyat</th>
+                                    <td class="align-middle text-left text-sm">
+                                        <p class="align-middle text-left text-sm mb-0">@Model.Fiyat €</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         @if (!Model.RezervasyonOnay)
                         {
                             <div class="col-12 col-md-12 col-lg-12 border-top pt-4" style="text-align: end;">
                                 <a href="@Url.Action("RezervasyonOnay", "Admin", new { id = Model.Id })" class="btn btn-success p-15" type="submit">Rezervasyon Onayla</a>
+                                <a href="javascript:;" class="btn btn-danger font-weight-bold p-15 ms-3" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#rezervSilModal" onclick="deleteOtel('@Model.Id')"> Sil </a>
                             </div>
                         }
+                        <div class="col-12 col-md-12 col-lg-12 border-top pt-4" style="text-align: end;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,3 +144,26 @@
     </div>
 </div>
 
+<div class="col-md-4">
+    <div class="modal fade" id="rezervSilModal" tabindex="-1" role="dialog" aria-labelledby="rezervSilModal" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Rezervasyon Sil</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="text-gradient text-danger mt-4">Rezervasyon silinmek üzere !</h4>
+                        <p>Rezervasyonu silmek istiyor musunuz?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("RezervasyonSil", "Admin", new { id = Model.Id })" class="btn btn-danger p-15" type="submit">Sil</a>
+                    <button type="button" class="btn btn-secondary text-white ml-auto p-15" data-bs-dismiss="modal">iPTAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

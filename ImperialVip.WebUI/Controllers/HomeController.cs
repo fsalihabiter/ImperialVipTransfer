@@ -13,6 +13,7 @@ namespace ImperialVip.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+        [Route("en/Index")]
         public ActionResult Index()
         {
             return View();
@@ -289,7 +290,8 @@ namespace ImperialVip.WebUI.Controllers
                     YetiskinSayisi = Convert.ToInt32(rezervasyonBilgileri.YetiskinSayisi),
                     CocukSayisi = Convert.ToInt32(rezervasyonBilgileri.CocukSayisi),
                     CocukKoltuguSayisi = Convert.ToInt32(rezervasyonBilgileri.CocukKoltuguSayisi),
-                    RezervasyonOnay = false
+                    RezervasyonOnay = false,
+                    KayitTarihi = DateTime.Now
                 };
 
                 var donusUcusNumarasi = (rezervasyonBilgileri.DonusUcusNumarasi == null) ? "-" : rezervasyonBilgileri.DonusUcusNumarasi;
@@ -524,6 +526,5 @@ namespace ImperialVip.WebUI.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-
     }
 }

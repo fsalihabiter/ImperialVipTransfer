@@ -58,6 +58,8 @@ namespace ImperialVip.DataAccess.Entities
 
         public bool RezervasyonOnay { get; set; }
 
+        public DateTime KayitTarihi { get; set; }
+
         public virtual Arac Arac { get; set; }
 
         public virtual Bolge AlisNoktasi { get; set; }

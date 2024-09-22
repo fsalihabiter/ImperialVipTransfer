@@ -286,6 +286,8 @@ namespace ImperialVip.WebUI.Controllers
                     AlisNoktasiId = alisNoktasiId,
                     VarisNoktasiId = varisNoktasiId,
                     AracId = aracId,
+                    Fiyat = rezervasyonBilgileri.Fiyat,
+                    DilKodu = rezervasyonBilgileri.DilKodu,
                     OtelAdi = rezervasyonBilgileri.OtelAdi,
                     GelisTarihi = Convert.ToDateTime(rezervasyonBilgileri.GelisZamani),
                     GelisUcusNumarasi = rezervasyonBilgileri.UcusNumarasi,
@@ -295,7 +297,8 @@ namespace ImperialVip.WebUI.Controllers
                     YetiskinSayisi = Convert.ToInt32(rezervasyonBilgileri.YetiskinSayisi),
                     CocukSayisi = Convert.ToInt32(rezervasyonBilgileri.CocukSayisi),
                     CocukKoltuguSayisi = Convert.ToInt32(rezervasyonBilgileri.CocukKoltuguSayisi),
-                    RezervasyonOnay = false
+                    RezervasyonOnay = false,
+                    KayitTarihi = DateTime.Now
                 };
 
                 var donusUcusNumarasi = (rezervasyonBilgileri.DonusUcusNumarasi == null) ? "-" : rezervasyonBilgileri.DonusUcusNumarasi;

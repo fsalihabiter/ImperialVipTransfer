@@ -20,24 +20,24 @@ namespace ImperialVip.WebUI
             Database.SetInitializer(new CreateDatabaseIfNotExists<ImperialDatabaseContext>());
         }
 
-        protected void Application_BeginRequest(Object sender, EventArgs e)
-        {
-            string userIP = HttpContext.Current.Request.UserHostAddress;
-            string userAgent = HttpContext.Current.Request.UserAgent;
+        //protected void Application_BeginRequest(Object sender, EventArgs e)
+        //{
+        //    string userIP = HttpContext.Current.Request.UserHostAddress;
+        //    string userAgent = HttpContext.Current.Request.UserAgent;
 
-            // Ziyaretçi bilgilerini veritabanına kaydedin.
-            using (var db = new ImperialDatabaseContext())
-            {
-                var visit = new Visit()
-                {
-                    IPAddress = userIP,
-                    UserAgent = userAgent,
-                    VisitDate = DateTime.Now
-                };
+        //    // Ziyaretçi bilgilerini veritabanına kaydedin.
+        //    using (var db = new ImperialDatabaseContext())
+        //    {
+        //        var visit = new Visit()
+        //        {
+        //            IPAddress = userIP,
+        //            UserAgent = userAgent,
+        //            VisitDate = DateTime.Now
+        //        };
 
-                db.Visits.Add(visit);
-                db.SaveChanges();
-            }
-        }
+        //        db.Visits.Add(visit);
+        //        db.SaveChanges();
+        //    }
+        //}
     }
 }

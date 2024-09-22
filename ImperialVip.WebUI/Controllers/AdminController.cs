@@ -152,6 +152,24 @@ namespace ImperialVip.WebUI.Controllers
             }
         }
 
+        public ActionResult RezervasyonSil(int id)
+        {
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                Rezervasyon rezerv = unitOfWork.Rezervasyonlar.Find(r => r.Id == id);
+                List<RezervasyonKisi> kisiler = unitOfWork.GelenKisiler.FindAll(k => k.RezervasyonId == id).ToList();
+                foreach (var item in kisiler)
+                {
+                    unitOfWork.GelenKisiler.Delete(item);
+                }
+
+                unitOfWork.Rezervasyonlar.Delete(rezerv);
+                unitOfWork.Complete();
+
+                return RedirectToAction("YorumIslemleri");
+            }
+        }
+
         public ActionResult Logo()
         {
             Icerik logo = new Icerik();
@@ -170,15 +188,15 @@ namespace ImperialVip.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult SliderGuncelle(int id, string baslik, string detay)
+        public ActionResult SliderGuncelle(IcerikDuzenleViewModel model)
         {
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
             {
-                Icerik guncellenecek = unitOfWork.Icerikler.Find(i => i.Id == id);
-                guncellenecek.IcerikBaslik = baslik;
-                guncellenecek.IcerikDetay = detay;
+                Icerik guncellenecek = unitOfWork.Icerikler.Find(i => i.Id == model.Id);
+                guncellenecek.IcerikBaslik = model.IcerikBaslik;
+                guncellenecek.IcerikDetay = model.IcerikDetay;
                 unitOfWork.Icerikler.Update(guncellenecek);
-                //unitOfWork.Complete();
+                unitOfWork.Complete();
                 return RedirectToAction("Slider");
             }
         }
@@ -194,8 +212,8 @@ namespace ImperialVip.WebUI.Controllers
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
             {
                 // Sonra yeni eklenmek istenen resim yükleniyor.
-                var imgCount = unitOfWork.Icerikler.FindAll(g => g.IcerikKategoriId == 9).Count();
-                string imgUrl = "slider/slider-" + (imgCount + 1) + "." + imgFile.ContentType.Split('/')[1];
+                var imgCount = unitOfWork.Icerikler.FindAll(g => g.IcerikKategoriId == 11).Count();
+                string imgUrl = "slider/slider-" + (DateTime.Now.ToString().Replace(':', '_')) + "." + imgFile.ContentType.Split('/')[1];
                 string savePath = Server.MapPath("~/Content/imgs/" + imgUrl);
                 imgFile.SaveAs(savePath);
 
@@ -286,7 +304,7 @@ namespace ImperialVip.WebUI.Controllers
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
             {
                 var imgCount = unitOfWork.Icerikler.FindAll(g => g.IcerikKategoriId == 9).Count();
-                string imgUrl = "galeri/image-" + (imgCount + 1) + "." + imgFile.ContentType.Split('/')[1];
+                string imgUrl = "galeri/image-" + (DateTime.Now.ToString().Replace(':', '_')) + "." + imgFile.ContentType.Split('/')[1];
                 string savePath = Server.MapPath("~/Content/imgs/" + imgUrl);
 
                 imgFile.SaveAs(savePath);
@@ -344,6 +362,17 @@ namespace ImperialVip.WebUI.Controllers
             {
                 List<BizUlasinMail> mailler = unitOfWork.BizeUlasinMailler.GetAll().OrderByDescending(m => m.Id).ToList();
                 return View(mailler);
+            }
+        }
+
+        public ActionResult BizeUlasinMailSil(int id)
+        {
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                BizUlasinMail mail = unitOfWork.BizeUlasinMailler.Find(o => o.Id == id);
+                unitOfWork.BizeUlasinMailler.Delete(mail);
+                unitOfWork.Complete();
+                return RedirectToAction("BizeUlasinMailleri");
             }
         }
 
@@ -480,7 +509,7 @@ namespace ImperialVip.WebUI.Controllers
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
             {
                 var imgCount = unitOfWork.Bolgeler.FindAll(g => g.AlisNoktasiMi).Count();
-                var imgUrl = "location/location-" + (imgCount + 1) + "." + imgFile.ContentType.Split('/')[1];
+                var imgUrl = "location/location-" + (DateTime.Now.ToString().Replace(':', '_')) + "." + imgFile.ContentType.Split('/')[1];
                 string savePath = Server.MapPath("~/Content/imgs/" + imgUrl);
                 string path = Server.MapPath("~/Content/imgs/" + imgFile.FileName);
                 imgFile.SaveAs(path);

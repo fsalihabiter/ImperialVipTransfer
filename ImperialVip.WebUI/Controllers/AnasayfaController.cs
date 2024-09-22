@@ -298,7 +298,8 @@ namespace ImperialVip.WebUI.Controllers
                     YetiskinSayisi = Convert.ToInt32(rezervasyonBilgileri.YetiskinSayisi),
                     CocukSayisi = Convert.ToInt32(rezervasyonBilgileri.CocukSayisi),
                     CocukKoltuguSayisi = Convert.ToInt32(rezervasyonBilgileri.CocukKoltuguSayisi),
-                    RezervasyonOnay = false
+                    RezervasyonOnay = false,
+                    KayitTarihi = DateTime.Now
                 };
 
                 var donusUcusNumarasi = (rezervasyonBilgileri.DonusUcusNumarasi == null) ? "-" : rezervasyonBilgileri.DonusUcusNumarasi;

@@ -23,6 +23,7 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">E-posta Adresi</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mesaj</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tarih</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                                     @*<th class="text-secondary opacity-7"></th>*@
                                 </tr>
                             </thead>
@@ -45,9 +46,10 @@
                                         <td class="align-middle text-center">
                                             <span class="text-xs text-secondary mb-0">@mail.GonderimTarihi.ToShortDateString() - @mail.GonderimTarihi.ToShortTimeString()</span>
                                         </td>
-                                        @*<td class="align-middle text-center">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bizeUlasinYanitModal" data-bs-whatever="mesaj">Yanıtla</button>
-                                        </td>*@
+                                        <td class="align-middle text-center">
+                                            @*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bizeUlasinYanitModal" data-bs-whatever="mesaj">Yanıtla</button>*@
+                                            <a href="javascript:;" class="btn btn-danger font-weight-bold" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#mailSilModal" onclick="setMailId('@mail.Id')"> Sil </a>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -59,6 +61,46 @@
     </div>
 </div>
 
-
-
 @{Html.RenderAction("BizeUlasinModal", "Admin");}
+
+<div class="col-md-4">
+    <div class="modal fade" id="mailSilModal" tabindex="-1" role="dialog" aria-labelledby="mailSilModal" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Mail Sil</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="text-gradient text-danger mt-4">Seçtiğiniz mail silinmek üzere !</h4>
+                        <p>Maili silmek istiyor musunuz?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="mailSilButton" onclick="deleteMail()">SİL</button>
+                    <button type="button" class="btn btn-secondary text-white ml-auto" data-bs-dismiss="modal">iPTAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function setMailId(mailId) {
+        // Modal'da saklayacağımız alanı seçiyoruz
+        var silButton = document.getElementById("mailSilButton");
+        silButton.setAttribute("data-mail-id", mailId);
+    };
+
+    function deleteMail() {
+        var silButton = document.getElementById("mailSilButton");
+        var mailId = silButton.getAttribute("data-mail-id");
+
+        // ID'yi kullanarak silme işlemini başlatabilirsiniz
+        var url = '@Url.Action("BizeUlasinMailSil", "Admin")' + '?id=' + mailId;
+        window.location.href = url;
+    };
+</script>

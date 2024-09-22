@@ -31,10 +31,7 @@
 
     @foreach (var item in Model)
     {
-        using (Html.BeginForm("SliderGuncelle", "Admin", new { id = item.Id, baslik = item.IcerikBaslik, detay = item.IcerikDetay }, FormMethod.Post, new { enctype = "multipart/form-data", role = "form", @class = "form p-0 m-0" }))
-        {
-            @Html.HiddenFor(model => item.Id);
-
+        <form onsubmit="sliderGuncelle(@item.Id, @item.DilId)" method="post" enctype="multipart/form-data" data-dil="@item.DilAdi" role="form" class="form-check p-0 m-0">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -47,22 +44,21 @@
                             <div class="slider-baslik col-12 col-md-12 col-lg-12">
                                 <div class="mb-3">
                                     <label for="recipient-name" class="col-form-label">Slider Başlığı :</label>
-                                    @Html.EditorFor(model => item.IcerikBaslik, @item.IcerikBaslik, new { htmlAttributes = new { @class = "form-control", type = "text", required = "required" } })
+                                    <input type="text" name="IcerikBaslik-@item.DilId" value="@item.IcerikBaslik" class="form-control" required/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="recipient-name" class="col-form-label">Slider İçeriği :</label>
-                                    @Html.TextAreaFor(model => item.IcerikDetay, 3, 5, new { @class = "form-control", type = "text", required = "required" })
+                                    <textarea name="IcerikDetay-@item.DilId" class="form-control" rows="5" required>@item.IcerikDetay</textarea>
                                 </div>
                                 <div class="text-end">
-                                    <button type="submit" data-id="@item.Id" class="btn btn-success p-15">GÜNCELLE</button>
+                                    <button type="submit" class="btn btn-success p-15">GÜNCELLE</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-        }
+        </form>
     }
 </div>
 
@@ -110,9 +106,49 @@
         window.location.href = url;
     }
 
-    function sliderGuncelle(event) {
-        var baslik = document.getElementById("IcerikBaslik");
-        var detay = document.getElementById("IcerikDetay");
-        console.log();
+    function sliderGuncelle(Id, DilId) {
+        var baslikName = 'input[name=IcerikBaslik-' + DilId + ']';
+        var detayName = 'textarea[name=IcerikDetay-' + DilId + ']';
+        const baslik = document.querySelector(baslikName).value;
+        const detay = document.querySelector(detayName).value;
+
+        const model = {
+            Id: Id,
+            IcerikBaslik: baslik,
+            IcerikDetay: detay
+        };
+
+
+        $.ajax({
+            url: "/Admin/SliderGuncelle",
+            data: JSON.stringify(model),
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            success: function (data) {
+                if (data.success === true) {
+                    toastr.success(data.message, "", {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "timeOut": "5000"
+                    })
+                }
+                else {
+                    toastr.warning(data.message, "", {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "timeOut": "5000"
+                    })
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+                toastr.success(error, status, {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "timeOut": "5000"
+                })
+            }
+        });
     }
 </script>

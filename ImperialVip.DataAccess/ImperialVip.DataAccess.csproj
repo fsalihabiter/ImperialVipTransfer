@@ -95,6 +95,7 @@
     <Compile Include="Entities\Rezervasyon.cs" />
     <Compile Include="ViewModels\BolgeDetayViewModel.cs" />
     <Compile Include="ViewModels\BolgeFiyatViewModel.cs" />
+    <Compile Include="ViewModels\IcerikDuzenleViewModel.cs" />
     <Compile Include="ViewModels\IcerikViewModel.cs" />
     <Compile Include="ViewModels\RezervasyonBilgileri.cs" />
     <Compile Include="ViewModels\RezervasyonModel.cs" />

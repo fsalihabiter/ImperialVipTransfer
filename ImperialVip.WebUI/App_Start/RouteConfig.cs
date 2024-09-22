@@ -48,18 +48,18 @@ namespace ImperialVip.WebUI
                 defaults: new { controller = "HomeRu", action = "Index", id = UrlParameter.Optional }
             );
 
+            // HomeController için default route
+            routes.MapRoute(
+                name: "Default",
+                url: "en/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
             // Geçersiz URL'ler için yönlendirme
             routes.MapRoute(
                 name: "InvalidUrl",
                 url: "{*url}",
                 defaults: new { controller = "Home", action = "Index" }
-            );
-
-            // HomeController için default route
-            routes.MapRoute(
-                name: "Default",
-                url: "{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
