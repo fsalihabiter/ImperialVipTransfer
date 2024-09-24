@@ -17,6 +17,5 @@ namespace ImperialVip.DataAccess.ViewModels
         public string ResimUrl { get; set; }
         public int AracId { get; set; }
         public string AracAdi { get; set; }
-
     }
 }

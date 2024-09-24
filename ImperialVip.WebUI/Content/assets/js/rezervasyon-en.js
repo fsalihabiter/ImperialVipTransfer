@@ -272,7 +272,7 @@
             console.log(rezervasyonBilgileri);
             debugger;
             $.ajax({
-                url: "/en/Reserv",
+                url: "/en/Reservation",
                 data: JSON.stringify(rezervasyonBilgileri),
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -346,24 +346,10 @@
                     ekranaYazdir(data.alis, data.varis, data.arac, data.fiyat);
                 },
                 error: function (xhr, status, error) {
-                    console.error("Hata:", status, error);
+                    console.error("Error: ", status, error);
                 }
             });
         }
-
-        //document.getElementById("OtelAdi").addEventListener("change", selectDegerYazdır);
-        //function selectDegerYazdır(event) {
-        //    var konum = event.target.id + "Yaz";
-        //    document.getElementById(konum).innerHTML = event.target.options[event.target.selectedIndex].text;
-        //}
-
-        //document.getElementById("GelisZamani").addEventListener("change", inputDegerYazdır);
-
-        //function inputDegerYazdır(event) {
-        //    var konum = event.target.id + "Yaz";
-        //    console.log(event.target.value);
-        //    document.getElementById(konum).innerHTML = event.target.value.replace("T"," ");
-        //}
 
         function ekranaYazdir(alis, varis, arac, fiyat) {
             document.getElementById("AlisNoktasiIdYaz").innerHTML = alis;

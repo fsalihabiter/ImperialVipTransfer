@@ -252,7 +252,7 @@ namespace ImperialVip.WebUI.Controllers
             {
                 RezervasyonViewModel rezervasyonModel = new RezervasyonViewModel();
 
-                List<Arac> araclar = unitOfWork.Araclar.GetAll().OrderBy(c => c.AracAdi).ToList();
+                List<Arac> araclar = unitOfWork.Araclar.GetAll().OrderBy(c => c.Id).ToList();
                 List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.BolgeAdi).ToList();
                 List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
 
@@ -309,6 +309,7 @@ namespace ImperialVip.WebUI.Controllers
                     rezervasyon.DonusUcusNumarasi = rezervasyonBilgileri.DonusUcusNumarasi;
                 }
                 unitOfWork.Rezervasyonlar.Insert(rezervasyon);
+                unitOfWork.Complete();
 
                 string kisiIsimleri = null;
                 if (rezervasyonBilgileri.KisiBilgileri != null)

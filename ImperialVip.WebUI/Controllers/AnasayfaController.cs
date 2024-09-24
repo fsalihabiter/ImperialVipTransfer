@@ -40,42 +40,6 @@ namespace ImperialVip.WebUI.Controllers
             }
         }
 
-        public ActionResult Slider()
-        {
-            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
-            {
-                List<Bolge> alisNoktalari = new List<Bolge>();
-                List<Bolge> varisNoktalari = new List<Bolge>();
-
-                alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.BolgeAdi).ToList();
-                varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
-
-                SliderRezervDTO rezerv = new SliderRezervDTO
-                {
-                    AlisNoktasi = new SelectList(alisNoktalari, "Id", "BolgeAdi"),
-                    VarisNoktasi = new SelectList(varisNoktalari, "Id", "BolgeAdi")
-                };
-
-                ViewBag.slider = unitOfWork.Icerikler.Find(s => s.IcerikKategoriId == 1 && s.DilId == 1);
-                ViewBag.images = unitOfWork.Icerikler.FindAll(s => s.IcerikKategoriId == 11).ToList();
-
-                return PartialView("_Slider", rezerv);
-            }
-        }
-
-        [HttpPost]
-        public JsonResult Slider(SliderRezervDTO rezerv)
-        {
-            RezervasyonDTO model = new RezervasyonDTO
-            {
-                AlisNoktasiId = rezerv.AlisNoktasiId,
-                VarisNoktasiId = rezerv.VarisNoktasiId,
-                YetiskinSayisi = rezerv.YetiskinSayisi,
-                CocukSayisi = rezerv.CocukSayisi
-            };
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult Bolgeler()
         {
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
@@ -246,6 +210,53 @@ namespace ImperialVip.WebUI.Controllers
             }
         }
 
+        public ActionResult Slider()
+        {
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                List<Bolge> alisNoktalari = new List<Bolge>();
+                List<Bolge> varisNoktalari = new List<Bolge>();
+
+                alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.BolgeAdi).ToList();
+                varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
+
+                SliderRezervDTO rezerv = new SliderRezervDTO
+                {
+                    AlisNoktasi = new SelectList(alisNoktalari, "Id", "BolgeAdi"),
+                    VarisNoktasi = new SelectList(varisNoktalari, "Id", "BolgeAdi")
+                };
+
+                ViewBag.slider = unitOfWork.Icerikler.Find(s => s.IcerikKategoriId == 1 && s.DilId == 1);
+                ViewBag.images = unitOfWork.Icerikler.FindAll(s => s.IcerikKategoriId == 11).ToList();
+
+                return PartialView("_Slider", rezerv);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Slider(SliderRezervDTO rezerv)
+        {
+            RezervasyonViewModel rezervasyonModel = new RezervasyonViewModel();
+
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                List<Arac> araclar = unitOfWork.Araclar.GetAll().ToList();
+                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.Id).ToList();
+                List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
+
+                rezervasyonModel.Arac = new SelectList(araclar, "Id", "AracAdi");
+                rezervasyonModel.AlisNoktasi = new SelectList(alisNoktalari, "Id", "BolgeAdi", rezerv.AlisNoktasiId);
+                rezervasyonModel.VarisNoktasi = new SelectList(varisNoktalari, "Id", "BolgeAdi", rezerv.VarisNoktasiId);
+                rezervasyonModel.YetiskinSayisi = rezerv.YetiskinSayisi;
+                rezervasyonModel.CocukSayisi = rezerv.CocukSayisi;
+
+                List<Otel> oteller = unitOfWork.Oteller.GetAll().ToList();
+                ViewBag.alisNoktasi = VarisNoktasiBelirle(rezerv.AlisNoktasiId);
+                ViewBag.Oteller = oteller;
+            }
+            return View("Rezervasyon", rezervasyonModel);
+        }
+
         [Route("tr/Rezervasyon")]
         public ActionResult Rezervasyon()
         {
@@ -254,7 +265,7 @@ namespace ImperialVip.WebUI.Controllers
                 RezervasyonViewModel rezervasyonModel = new RezervasyonViewModel();
 
                 List<Arac> araclar = unitOfWork.Araclar.GetAll().ToList();
-                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.BolgeAdi).ToList();
+                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.Id).ToList();
                 List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
 
                 rezervasyonModel.Arac = new SelectList(araclar, "Id", "AracAdi");
@@ -496,6 +507,37 @@ namespace ImperialVip.WebUI.Controllers
                     varis = varisNoktasi,
                     arac = aracTuru
                 }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public void FiyatBelirleSlider(int alisNoktasiId, int varisNoktasiId, int aracId)
+        {
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                string aracTuru = "";
+                string alisNoktasi = "";
+                string varisNoktasi = "";
+                float bolgeFiyat = 0;
+
+                BolgeDetayViewModel model = unitOfWork.BolgeAracFiyatlari.BolgeleriGetir(x => x.AracId == 1).Where(f => f.BolgeId == alisNoktasiId).FirstOrDefault();
+
+                if (model == null)
+                {
+                    alisNoktasi = model.BolgeAdi;
+                    varisNoktasi = "Antalya";
+                    aracTuru = model.AracAdi;
+                    bolgeFiyat = model.Fiyat;
+                    
+                }
+                else
+                {
+                    model = unitOfWork.BolgeAracFiyatlari.BolgeleriGetir(x => x.AracId == 1).Where(f => f.BolgeId == varisNoktasiId).FirstOrDefault();
+
+                    alisNoktasi = "Antalya";
+                    varisNoktasi = model.BolgeAdi;
+                    aracTuru = model.AracAdi;
+                    bolgeFiyat = model.Fiyat;
+                }
             }
         }
 

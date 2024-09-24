@@ -159,7 +159,7 @@ namespace ImperialVip.WebUI.Controllers
                     };
 
                     unitOfWork.BizeUlasinMailler.Insert(mail);
-                    //unitOfWork.Complete();
+                    unitOfWork.Complete();
 
                     return Json(new { success = true, message = "Your message has been delivered successfully." }, JsonRequestBehavior.AllowGet);
                 }
@@ -247,7 +247,7 @@ namespace ImperialVip.WebUI.Controllers
                 RezervasyonViewModel rezervasyonModel = new RezervasyonViewModel();
 
                 List<Arac> araclar = unitOfWork.Araclar.GetAll().ToList();
-                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.BolgeAdi).ToList();
+                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.Id).ToList();
                 List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
 
                 rezervasyonModel.Arac = new SelectList(araclar, "Id", "AracAdi");
@@ -260,7 +260,7 @@ namespace ImperialVip.WebUI.Controllers
         }
 
         [HttpPost]
-        [Route("en/Reserv")]
+        [Route("en/Reservation")]
         public JsonResult Reservation(RezervasyonBilgileri rezervasyonBilgileri)
         {
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))

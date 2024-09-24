@@ -351,20 +351,6 @@
             });
         }
 
-        //document.getElementById("OtelAdi").addEventListener("change", selectDegerYazdır);
-        //function selectDegerYazdır(event) {
-        //    var konum = event.target.id + "Yaz";
-        //    document.getElementById(konum).innerHTML = event.target.options[event.target.selectedIndex].text;
-        //}
-
-        //document.getElementById("GelisZamani").addEventListener("change", inputDegerYazdır);
-
-        //function inputDegerYazdır(event) {
-        //    var konum = event.target.id + "Yaz";
-        //    console.log(event.target.value);
-        //    document.getElementById(konum).innerHTML = event.target.value.replace("T"," ");
-        //}
-
         function ekranaYazdir(alis, varis, arac, fiyat) {
             document.getElementById("AlisNoktasiIdYaz").innerHTML = alis;
             document.getElementById("VarisNoktasiIdYaz").innerHTML = varis;

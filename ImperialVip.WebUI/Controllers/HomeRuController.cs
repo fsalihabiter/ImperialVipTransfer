@@ -161,6 +161,7 @@ namespace ImperialVip.WebUI.Controllers
                 };
 
                 unitOfWork.BizeUlasinMailler.Insert(mail);
+                unitOfWork.Complete();
 
                 return RedirectToAction("Index", "HomeRu");
             }
@@ -191,6 +192,7 @@ namespace ImperialVip.WebUI.Controllers
                 };
 
                 unitOfWork.Yorumlar.Insert(yorum);
+                unitOfWork.Complete();
 
                 return RedirectToAction("Index", "HomeRu");
             }
@@ -243,7 +245,7 @@ namespace ImperialVip.WebUI.Controllers
             {
                 RezervasyonViewModel rezervasyonModel = new RezervasyonViewModel();
 
-                List<Arac> araclar = unitOfWork.Araclar.GetAll().OrderBy(c => c.AracAdi).ToList();
+                List<Arac> araclar = unitOfWork.Araclar.GetAll().OrderBy(c => c.Id).ToList();
                 List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.BolgeAdi).ToList();
                 List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
 
@@ -300,6 +302,7 @@ namespace ImperialVip.WebUI.Controllers
                     rezervasyon.DonusUcusNumarasi = rezervasyonBilgileri.DonusUcusNumarasi;
                 }
                 unitOfWork.Rezervasyonlar.Insert(rezervasyon);
+                unitOfWork.Complete();
 
                 string kisiIsimleri = null;
                 if (rezervasyonBilgileri.KisiBilgileri != null)
@@ -321,6 +324,7 @@ namespace ImperialVip.WebUI.Controllers
                         kisiIsimleri = kisiIsimleri + kisi.AdSoyad;
 
                         unitOfWork.GelenKisiler.Insert(rezervKisi);
+                        unitOfWork.Complete();
                     }
                 }
 
@@ -394,10 +398,14 @@ namespace ImperialVip.WebUI.Controllers
                                 "</div>";
                 #endregion
 
-                MailHelper.SendRezervasyonMail(body);
 
-                return RedirectToAction("Rezervasyon", "HomeRu");
+                if (MailHelper.SendRezervasyonMail(body))
+                {
+                    return Json(new { success = true, message = "Ваш запрос на бронирование получен." }, JsonRequestBehavior.AllowGet);
+                }
             }
+
+            return Json(new { success = false, message = "Ваш запрос на бронирование не был получен из-за возникшей проблемы." }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

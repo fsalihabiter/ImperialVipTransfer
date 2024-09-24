@@ -64,5 +64,8 @@ namespace ImperialVip.DataAccess.ViewModels
 
         [Display(Name = "Özel Not")]
         public string OzelNot { get; set; }
+
+        [Display(Name = "Fiyat")]
+        public string Fiyat { get; set; }
     }
 }

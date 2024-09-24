@@ -4,6 +4,9 @@
     ViewBag.Title = "Rezervasyon";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    var yetiskin = Model.YetiskinSayisi == 0 ? 1 : Model.YetiskinSayisi;
+    var cocuk = Model.CocukSayisi == 0 ? 0 : Model.CocukSayisi;
+
     var today = DateTime.Now.ToString("yyyy-MM-ddThh:mm");
 }
 
@@ -95,13 +98,13 @@
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="YetiskinSayisi" class="form-label flex-gap-10"><i class="bi bi-person-rolodex"></i>Yetişkin Sayısı</label>
-                                            @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", min = "1", @Value = "1" } })
+                                            @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", min = "1", @Value = $"{yetiskin}", @onload = "yetiskinBilgiFields()" } })
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="CocukSayisi" class="form-label flex-gap-10"><i class="bi bi-person-video3"></i>Çocuk Sayısı</label>
-                                            @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", min = "0", max = "9", @Value = "0" } })
+                                            @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", min = "0", max = "9", @Value = $"{cocuk}", @onload = "cocukBilgiFields()" } })
                                         </div>
                                     </div>
                                 </div>
@@ -152,11 +155,35 @@
                                 <div class="m-0 p-0 row" id="YetiskinBilgileri">
                                     <div class="mb-3">
                                         <h3>Diğer Kişi Bilgileri</h3>
+                                        @if (Model.YetiskinSayisi > 1)
+                                        {
+                                            for (int i = 2; i <= Model.YetiskinSayisi; i++)
+                                            {
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon3">@i. Ad Soyad</span>
+                                                        <input class="form-control" type="text" required="required" id="AdSoyad@i" aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
                                 <div class="m-0 p-0 row" id="CocukBilgileriDiv">
                                     <div class="mb-3">
                                         <h3>Çocuk Bilgileri</h3>
+                                        @if (Model.CocukSayisi > 0)
+                                        {
+                                            for (int i = 1; i <= Model.CocukSayisi; i++)
+                                            {
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon3">@i. Ad Soyad</span>
+                                                        <input class="form-control" type="text" required="required" id="AdSoyad@i" aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                     <div id="CocukBilgileri"></div>
                                 </div>
@@ -178,7 +205,12 @@
                                         Alış Noktası
                                         <span>:</span>
                                     </th>
-                                    <td id="AlisNoktasiIdYaz"></td>
+                                    <td id="AlisNoktasiIdYaz">
+                                        @if (Model.AlisNoktasiId != 0)
+                                        {
+
+                                        }
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th style="width: 150px;">

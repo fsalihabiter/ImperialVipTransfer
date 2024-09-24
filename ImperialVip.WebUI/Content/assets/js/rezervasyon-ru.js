@@ -13,7 +13,7 @@
                 type: "POST",
                 dataType: "Json",
                 success: function (data) {
-                    $("#VarisNoktasiId").empty(); $("#VarisNoktasiId").append("<option value='' >Выберите местоположение</option>")
+                    $("#VarisNoktasiId").empty();
                     for (var i = 0; i < data.length; i++) {
                         $("#VarisNoktasiId").append("<option value='" + data[i].Value + "' >" +
                             data[i].Text + "</option>")
@@ -183,7 +183,7 @@
         /********************************************************************************************************* */
 
 
-        document.getElementById("rezervasyonYap").addEventListener("click", function (event) {
+        document.getElementById("rezervasyonForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Formun otomatik gönderimini durduruyoruz.
 
 
@@ -212,6 +212,14 @@
             const otelAdiSelect = document.querySelector('select[name="OtelAdi"]');
             const otelAdiText = otelAdiSelect.options[otelAdiSelect.selectedIndex].text;
 
+            const fiyat = document.querySelector('#FiyatYaz').innerHTML;
+            console.log("fiyat");
+            console.log(fiyat);
+
+            var currentLanguageElement = document.getElementById('currentLanguage');
+
+            // Aria-valuetext değerini al
+            var dilKodu = currentLanguageElement.getAttribute('aria-valuetext');
 
             // Yetişkin Ad Soyad bilgilerini al
             var yetiskinAdSoyadInputs = document.querySelectorAll('input[name="YetiskinAdSoyad"]');
@@ -253,6 +261,8 @@
                 telefon: telefon,
                 email: email,
                 ozelNot: ozelNot,
+                dilKodu: dilKodu,
+                fiyat: fiyat,
                 KisiBilgileri: kisiBilgileri
             };
 
@@ -266,10 +276,29 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "Json",
                 success: function (data) {
-                    alert("Ваша запись бронирования создана.");
+                    if (data.success === true) {
+                        document.getElementById('rezervasyonForm').reset();
+                        toastr.success(data.message, "", {
+                            "closeButton": true,
+                            "progressBar": true,
+                            "timeOut": "5000"
+                        })
+                    }
+                    else {
+                        toastr.warning(data.message, "", {
+                            "closeButton": true,
+                            "progressBar": true,
+                            "timeOut": "5000"
+                        })
+                    }
                 },
                 error: function (xhr, status, error) {
-                    console.error("Hata:");
+                    console.log(xhr);
+                    toastr.success(error, status, {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "timeOut": "5000"
+                    })
                 }
             });
 
@@ -315,7 +344,7 @@
                     ekranaYazdir(data.alis, data.varis, data.arac, data.fiyat);
                 },
                 error: function (xhr, status, error) {
-                    console.error("Hata:", status, error);
+                    console.error("Ошибка: ", status, error);
                 }
             });
         }
