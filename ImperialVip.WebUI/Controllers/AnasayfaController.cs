@@ -214,11 +214,8 @@ namespace ImperialVip.WebUI.Controllers
         {
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
             {
-                List<Bolge> alisNoktalari = new List<Bolge>();
-                List<Bolge> varisNoktalari = new List<Bolge>();
-
-                alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.BolgeAdi).ToList();
-                varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
+                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.BolgeAdi).ToList();
+                List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
 
                 SliderRezervDTO rezerv = new SliderRezervDTO
                 {
@@ -251,10 +248,38 @@ namespace ImperialVip.WebUI.Controllers
                 rezervasyonModel.CocukSayisi = rezerv.CocukSayisi;
 
                 List<Otel> oteller = unitOfWork.Oteller.GetAll().ToList();
-                ViewBag.alisNoktasi = VarisNoktasiBelirle(rezerv.AlisNoktasiId);
+                ViewBag.rezervasyonInfo = FiyatBelirleSlider(rezerv.AlisNoktasiId, rezerv.VarisNoktasiId);
                 ViewBag.Oteller = oteller;
             }
             return View("Rezervasyon", rezervasyonModel);
+        }
+
+        public SliderToRezervationInfoViewModel FiyatBelirleSlider(int alisNoktasiId, int varisNoktasiId)
+        {
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                SliderToRezervationInfoViewModel info = new SliderToRezervationInfoViewModel();
+
+                BolgeDetayViewModel model = unitOfWork.BolgeAracFiyatlari.BolgeleriGetir(x => x.AracId == 1).Where(f => f.BolgeId == alisNoktasiId).FirstOrDefault();
+
+                if (model != null)
+                {
+                    info.AlisAdi = model.BolgeAdi;
+                    info.VarisAdi = "Antalya";
+                }
+                else
+                {
+                    model = unitOfWork.BolgeAracFiyatlari.BolgeleriGetir(x => x.AracId == 1).Where(f => f.BolgeId == varisNoktasiId).FirstOrDefault();
+
+                    info.AlisAdi = "Antalya";
+                    info.VarisAdi = model.BolgeAdi;
+                }
+
+                info.AracAdi = model.AracAdi;
+                info.Fiyat = model.Fiyat.ToString() + " €";
+
+                return info;
+            }
         }
 
         [Route("tr/Rezervasyon")]
@@ -507,37 +532,6 @@ namespace ImperialVip.WebUI.Controllers
                     varis = varisNoktasi,
                     arac = aracTuru
                 }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public void FiyatBelirleSlider(int alisNoktasiId, int varisNoktasiId, int aracId)
-        {
-            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
-            {
-                string aracTuru = "";
-                string alisNoktasi = "";
-                string varisNoktasi = "";
-                float bolgeFiyat = 0;
-
-                BolgeDetayViewModel model = unitOfWork.BolgeAracFiyatlari.BolgeleriGetir(x => x.AracId == 1).Where(f => f.BolgeId == alisNoktasiId).FirstOrDefault();
-
-                if (model == null)
-                {
-                    alisNoktasi = model.BolgeAdi;
-                    varisNoktasi = "Antalya";
-                    aracTuru = model.AracAdi;
-                    bolgeFiyat = model.Fiyat;
-                    
-                }
-                else
-                {
-                    model = unitOfWork.BolgeAracFiyatlari.BolgeleriGetir(x => x.AracId == 1).Where(f => f.BolgeId == varisNoktasiId).FirstOrDefault();
-
-                    alisNoktasi = "Antalya";
-                    varisNoktasi = model.BolgeAdi;
-                    aracTuru = model.AracAdi;
-                    bolgeFiyat = model.Fiyat;
-                }
             }
         }
 

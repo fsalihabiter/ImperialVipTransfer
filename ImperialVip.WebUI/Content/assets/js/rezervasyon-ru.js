@@ -268,7 +268,6 @@
 
             // Nesneyi konsola yazdırıyoruz
             console.log(rezervasyonBilgileri);
-
             $.ajax({
                 url: "/ru/Reservation",
                 data: JSON.stringify(rezervasyonBilgileri),

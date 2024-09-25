@@ -11,9 +11,7 @@
 }
 
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.min.css" rel="stylesheet">
-
 <script defer src="~/Content/assets/js/rezervasyon.js"></script>
-
 
 <div class="page-title dark-background" data-aos="fade" style="background-image: url(../../Content/imgs/kategori/bronirovanie-ru836.jpg);">
     <div class="container position-relative">
@@ -33,7 +31,7 @@
                         </div>
                         <div class="card-body p-5">
                             <div class="row gap-30" id="SeyahatBilgileri">
-                                <div id="GelisBilgileri" class="row seperator p-0 m-0">
+                                <div class="row seperator p-0 m-0">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="AlisNoktasi" class="form-label flex-gap-10"><i class="bi bi-luggage"></i>Alış Noktası</label>
                                         @Html.DropDownListFor(model => model.AlisNoktasiId, Model.AlisNoktasi, new { @class = "form-control", required = "required" })
@@ -50,7 +48,6 @@
                                         @Html.DropDownListFor(model => model.AracId, Model.Arac, new { @class = "form-control", required = "required" })
                                     </div>
                                 </div>
-
 
                                 <div class="col-12 col-md-12 col-lg-12">
                                     <label for="OtelAdi" class="form-label flex-gap-10"><i class="bi bi-building"></i>Otel Adı</label>
@@ -98,13 +95,13 @@
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="YetiskinSayisi" class="form-label flex-gap-10"><i class="bi bi-person-rolodex"></i>Yetişkin Sayısı</label>
-                                            @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", min = "1", @Value = $"{yetiskin}", @onload = "yetiskinBilgiFields()" } })
+                                            @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", min = "1", @Value = $"{yetiskin}" } })
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="CocukSayisi" class="form-label flex-gap-10"><i class="bi bi-person-video3"></i>Çocuk Sayısı</label>
-                                            @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", min = "0", max = "9", @Value = $"{cocuk}", @onload = "cocukBilgiFields()" } })
+                                            @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", min = "0", max = "9", @Value = $"{cocuk}" } })
                                         </div>
                                     </div>
                                 </div>
@@ -155,23 +152,25 @@
                                 <div class="m-0 p-0 row" id="YetiskinBilgileri">
                                     <div class="mb-3">
                                         <h3>Diğer Kişi Bilgileri</h3>
-                                        @if (Model.YetiskinSayisi > 1)
-                                        {
-                                            for (int i = 2; i <= Model.YetiskinSayisi; i++)
-                                            {
-                                                <div class="mb-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-text" id="basic-addon3">@i. Ad Soyad</span>
-                                                        <input class="form-control" type="text" required="required" id="AdSoyad@i" aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
-                                                    </div>
-                                                </div>
-                                            }
-                                        }
                                     </div>
+                                    @if (Model.YetiskinSayisi > 1)
+                                    {
+                                        for (int i = 2; i <= Model.YetiskinSayisi; i++)
+                                        {
+                                            <div class="mb-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" id="basic-addon3">@i. Ad Soyad</span>
+                                                    <input class="form-control" type="text" required="required" aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
+                                                </div>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                                 <div class="m-0 p-0 row" id="CocukBilgileriDiv">
                                     <div class="mb-3">
                                         <h3>Çocuk Bilgileri</h3>
+                                    </div>
+                                    <div id="CocukBilgileri">
                                         @if (Model.CocukSayisi > 0)
                                         {
                                             for (int i = 1; i <= Model.CocukSayisi; i++)
@@ -179,74 +178,64 @@
                                                 <div class="mb-3">
                                                     <div class="input-group">
                                                         <span class="input-group-text" id="basic-addon3">@i. Ad Soyad</span>
-                                                        <input class="form-control" type="text" required="required" id="AdSoyad@i" aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
+                                                        <input class="form-control" type="text" required="required" aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
                                                     </div>
                                                 </div>
                                             }
                                         }
                                     </div>
-                                    <div id="CocukBilgileri"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="flex-gap-30 col-12 col-lg-4">
-
                     <div class="card">
                         <div class="card-header bg-success">
                             <h3 class="text-white m-0">Transfer Detayları</h3>
                         </div>
                         <div class="card-body p-4">
                             <table class="table">
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Alış Noktası
-                                        <span>:</span>
-                                    </th>
-                                    <td id="AlisNoktasiIdYaz">
-                                        @if (Model.AlisNoktasiId != 0)
-                                        {
+                                @if (ViewBag.rezervasyonInfo != null)
+                                {
 
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Varış Noktası
-                                        <span>:</span>
-                                    </th>
-                                    <td id="VarisNoktasiIdYaz"></td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Araç
-                                        <span>:</span>
-                                    </th>
-                                    <td id="AracIdYaz"></td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Fiyat
-                                        <span>:</span>
-                                    </th>
-                                    <td><strong style="font-size: 1.5rem;" id="FiyatYaz"></strong></td>
-                                </tr>
-                                @*<tr>
-                                    <th style="width: 150px;">
-                                        Otel Adı
-                                        <span>:</span>
-                                    </th>
-                                    <td id="OtelAdiYaz"></td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Geliş Zamanı
-                                        <span>:</span>
-                                    </th>
-                                    <td id="GelisZamaniYaz"></td>
-                                </tr>*@
+                                    <tr>
+                                        <th style="width: 150px;">Alış Noktası <span>:</span> </th>
+                                        <td id="AlisNoktasiIdYaz">@ViewBag.rezervasyonInfo.AlisAdi</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">Varış Noktası <span>:</span> </th>
+                                        <td id="VarisNoktasiIdYaz">@ViewBag.rezervasyonInfo.VarisAdi</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">Araç <span>:</span> </th>
+                                        <td id="AracIdYaz">@ViewBag.rezervasyonInfo.AracAdi</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">Fiyat <span>:</span> </th>
+                                        <td><strong style="font-size: 1.5rem;" id="FiyatYaz">@ViewBag.rezervasyonInfo.Fiyat</strong></td>
+                                    </tr>
+                                }
+                                else
+                                {
+
+                                    <tr>
+                                        <th style="width: 150px;">Alış Noktası <span>:</span></th>
+                                        <td id="AlisNoktasiIdYaz"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">Varış Noktası <span>:</span></th>
+                                        <td id="VarisNoktasiIdYaz"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">Araç <span>:</span></th>
+                                        <td id="AracIdYaz"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">Fiyat <span>:</span></th>
+                                        <td><strong style="font-size: 1.5rem;" id="FiyatYaz"></strong></td>
+                                    </tr>
+                                }
                             </table>
                             <div class="col-12 col-md-12 col-lg-12 pt-4" style="text-align: end;">
                                 <button class="btn btn-success p-3" id="rezervasyonYap" type="submit">Rezervasyon Yap</button>

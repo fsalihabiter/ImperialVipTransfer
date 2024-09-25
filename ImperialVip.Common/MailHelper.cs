@@ -44,7 +44,8 @@ namespace ImperialVip.Common
                                 ConfigHelper.Get<string>("MailUser"),
                                 ConfigHelper.Get<string>("MailPass"));
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.EnableSsl = true;
+                        smtp.EnableSsl = false;
+                        smtp.Timeout = 5000;
                         ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
                         smtp.Send(message);
                     }
@@ -84,7 +85,8 @@ namespace ImperialVip.Common
                             ConfigHelper.Get<string>("MailUser"),
                             ConfigHelper.Get<string>("MailPass"));
                     smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    smtp.EnableSsl = true;
+                    smtp.EnableSsl = false;
+                    smtp.Timeout = 5000;
                     ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
                     smtp.Send(message);
                 }
@@ -170,7 +172,8 @@ namespace ImperialVip.Common
                                 ConfigHelper.Get<string>("MailUser"),
                                 ConfigHelper.Get<string>("MailPass"));
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.EnableSsl = true;
+                        smtp.EnableSsl = false;
+                        smtp.Timeout = 5000;
                         ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
                         smtp.Send(message);
                     }

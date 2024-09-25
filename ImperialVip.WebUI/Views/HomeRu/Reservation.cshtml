@@ -1,15 +1,17 @@
-﻿
-@using ImperialVip.DataAccess.ViewModels
+﻿@using ImperialVip.DataAccess.ViewModels
 @model RezervasyonViewModel
-
 @{
     ViewBag.Title = "Бронирование";
     Layout = "~/Views/Shared/_LayoutRu.cshtml";
+
+    var yetiskin = Model.YetiskinSayisi == 0 ? 1 : Model.YetiskinSayisi;
+    var cocuk = Model.CocukSayisi == 0 ? 0 : Model.CocukSayisi;
 
     var today = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
 }
 
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.min.css" rel="stylesheet">
+<script src="~/Content/assets/js/rezervasyon-ru.js"></script>
 
 <div class="page-title dark-background" data-aos="fade" style="background-image: url(../../Content/imgs/kategori/bronirovanie-ru836.jpg);">
     <div class="container position-relative">
@@ -30,7 +32,7 @@
                             </div>
                             <div class="card-body p-5">
                                 <div class="row gap-30" id="SeyahatBilgileri">
-                                    <div id="GelisBilgileri" class="row seperator p-0 m-0">
+                                    <div class="row seperator p-0 m-0">
                                         <div class="col-12 col-md-6 col-lg-4">
                                             <label for="AlisNoktasi" class="form-label flex-gap-10"><i class="bi bi-luggage"></i>Место получения</label>
                                             @Html.DropDownListFor(model => model.AlisNoktasiId, Model.AlisNoktasi, new { @class = "form-control", required = "required" })
@@ -93,13 +95,13 @@
                                         <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label for="YetiskinSayisi" class="form-label flex-gap-10"><i class="bi bi-person-rolodex"></i>Количество взрослых</label>
-                                                @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", @Value = 1, min = "1" } })
+                                                @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", min = "1", @Value = $"{yetiskin}" } })
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label for="CocukSayisi" class="form-label flex-gap-10"><i class="bi bi-person-video3"></i>Количество детей</label>
-                                                @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", @Value = 0, min = "0" } })
+                                                @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", min = "0", @Value = $"{cocuk}" } })
                                             </div>
                                         </div>
                                     </div>
@@ -151,12 +153,37 @@
                                         <div class="mb-3">
                                             <h3>Информация о другом лице</h3>
                                         </div>
+                                        @if (Model.YetiskinSayisi > 1)
+                                        {
+                                            for (int i = 2; i <= Model.YetiskinSayisi; i++)
+                                            {
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon3">@i. Имя Фамилия</span>
+                                                        <input class="form-control" type="text" required="required" aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                     <div class="m-0 p-0 row" id="CocukBilgileriDiv">
                                         <div class="mb-3">
                                             <h3>Информация для детей</h3>
                                         </div>
-                                        <div id="CocukBilgileri"></div>
+                                        <div id="CocukBilgileri">
+                                            @if (Model.CocukSayisi > 0)
+                                            {
+                                                for (int i = 1; i <= Model.CocukSayisi; i++)
+                                                {
+                                                    <div class="mb-3">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text" id="basic-addon3">@i. Имя Фамилия</span>
+                                                            <input class="form-control" type="text" required="required" aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -169,34 +196,68 @@
                             </div>
                             <div class="card-body p-4">
                                 <table class="table">
-                                    <tr>
-                                        <th style="width: 150px;">
-                                            Место получения
-                                            <span>:</span>
-                                        </th>
-                                        <td id="AlisNoktasiIdYaz"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width: 150px;">
-                                            Место назначения
-                                            <span>:</span>
-                                        </th>
-                                        <td id="VarisNoktasiIdYaz"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width: 150px;">
-                                            Транспортное средство
-                                            <span>:</span>
-                                        </th>
-                                        <td id="AracIdYaz"></td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width: 150px;">
-                                            Цена
-                                            <span>:</span>
-                                        </th>
-                                        <td><strong style="font-size: 1.5rem;" id="FiyatYaz"></strong></td>
-                                    </tr>
+                                    @if (ViewBag.rezervasyonInfo != null)
+                                    {
+                                        <tr>
+                                            <th style="width: 150px;">
+                                                Место получения
+                                                <span>:</span>
+                                            </th>
+                                            <td id="AlisNoktasiIdYaz">@ViewBag.rezervasyonInfo.AlisAdi</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 150px;">
+                                                Место назначения
+                                                <span>:</span>
+                                            </th>
+                                            <td id="VarisNoktasiIdYaz">@ViewBag.rezervasyonInfo.VarisAdi</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 150px;">
+                                                Транспортное средство
+                                                <span>:</span>
+                                            </th>
+                                            <td id="AracIdYaz">@ViewBag.rezervasyonInfo.AracAdi</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 150px;">
+                                                Цена
+                                                <span>:</span>
+                                            </th>
+                                            <td><strong style="font-size: 1.5rem;" id="FiyatYaz">@ViewBag.rezervasyonInfo.Fiyat</strong></td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <th style="width: 150px;">
+                                                Место получения
+                                                <span>:</span>
+                                            </th>
+                                            <td id="AlisNoktasiIdYaz"></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 150px;">
+                                                Место назначения
+                                                <span>:</span>
+                                            </th>
+                                            <td id="VarisNoktasiIdYaz"></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 150px;">
+                                                Транспортное средство
+                                                <span>:</span>
+                                            </th>
+                                            <td id="AracIdYaz"></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 150px;">
+                                                Цена
+                                                <span>:</span>
+                                            </th>
+                                            <td><strong style="font-size: 1.5rem;" id="FiyatYaz"></strong></td>
+                                        </tr>
+                                    }
                                 </table>
                                 <div class="col-12 col-md-12 col-lg-12 pt-4" style="text-align: end;">
                                     <button class="btn btn-success p-3" id="rezervasyonYap" type="submit">Создать бронирование</button>
@@ -221,7 +282,6 @@
     };
     new TomSelect('#OtelAdi', settings);
 </script>
-<script src="~/Content/assets/js/rezervasyon-ru.js"></script>
 
 
 

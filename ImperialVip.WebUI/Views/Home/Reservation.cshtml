@@ -6,6 +6,9 @@
     ViewBag.Title = "Reservation";
     Layout = "~/Views/Shared/_LayoutEn.cshtml";
 
+    var yetiskin = Model.YetiskinSayisi == 0 ? 1 : Model.YetiskinSayisi;
+    var cocuk = Model.CocukSayisi == 0 ? 0 : Model.CocukSayisi;
+
     var today = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
 }
 
@@ -30,7 +33,7 @@
                         </div>
                         <div class="card-body p-5">
                             <div class="row gap-30" id="SeyahatBilgileri">
-                                <div id="GelisBilgileri" class="row seperator p-0 m-0">
+                                <div class="row seperator p-0 m-0">
                                     <div class="col-12 col-md-6 col-lg-4">
                                         <label for="AlisNoktasi" class="form-label flex-gap-10"><i class="bi bi-luggage"></i>Pick-up Location</label>
                                         @Html.DropDownListFor(model => model.AlisNoktasiId, Model.AlisNoktasi, new { @class = "form-control", required = "required" })
@@ -93,13 +96,13 @@
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="YetiskinSayisi" class="form-label flex-gap-10"><i class="bi bi-person-rolodex"></i>Number of Adults</label>
-                                            @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", @Value = 1, min = "1" } })
+                                            @Html.EditorFor(model => model.YetiskinSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "1", min = "1", @Value = $"{yetiskin}" } })
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label for="CocukSayisi" class="form-label flex-gap-10"><i class="bi bi-person-video3"></i>Number of Children</label>
-                                            @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", @Value = 0, min = "0" } })
+                                            @Html.EditorFor(model => model.CocukSayisi, new { htmlAttributes = new { @class = "form-control", type = "number", required = "required", placeholder = "0", min = "0", @Value = $"{cocuk}" } })
                                         </div>
                                     </div>
                                 </div>
@@ -150,19 +153,43 @@
                                 <div class="m-0 p-0 row" id="YetiskinBilgileri">
                                     <div class="mb-3">
                                         <h3>Other Person Information</h3>
+                                        @if (Model.YetiskinSayisi > 1)
+                                        {
+                                            for (int i = 2; i <= Model.YetiskinSayisi; i++)
+                                            {
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon3">@i. Full Name</span>
+                                                        <input class="form-control" type="text" required="required"  aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
                                 <div class="m-0 p-0 row" id="CocukBilgileriDiv">
                                     <div class="mb-3">
                                         <h3>Children's Information</h3>
                                     </div>
-                                    <div id="CocukBilgileri"></div>
+                                    <div id="CocukBilgileri">
+                                        @if (Model.CocukSayisi > 0)
+                                        {
+                                            for (int i = 1; i <= Model.CocukSayisi; i++)
+                                            {
+                                                <div class="mb-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon3">@i. Full Name</span>
+                                                        <input class="form-control" type="text" required="required"  aria-describedby="basic-addon3 basic-addon4" name="YetiskinAdSoyad">
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="flex-gap-30 col-12 col-lg-4">
                     <div class="card">
                         <div class="card-header bg-success">
@@ -170,34 +197,68 @@
                         </div>
                         <div class="card-body p-4">
                             <table class="table">
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Pick-up Location
-                                        <span>:</span>
-                                    </th>
-                                    <td id="AlisNoktasiIdYaz"></td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Drop-off Location
-                                        <span>:</span>
-                                    </th>
-                                    <td id="VarisNoktasiIdYaz"></td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Vehicle
-                                        <span>:</span>
-                                    </th>
-                                    <td id="AracIdYaz"></td>
-                                </tr>
-                                <tr>
-                                    <th style="width: 150px;">
-                                        Price
-                                        <span>:</span>
-                                    </th>
-                                    <td><strong style="font-size: 1.5rem;" id="FiyatYaz"></strong></td>
-                                </tr>
+                                @if (ViewBag.rezervasyonInfo != null)
+                                {
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Pick-up Location
+                                            <span>:</span>
+                                        </th>
+                                        <td id="AlisNoktasiIdYaz">@ViewBag.rezervasyonInfo.AlisAdi</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Drop-off Location
+                                            <span>:</span>
+                                        </th>
+                                        <td id="VarisNoktasiIdYaz">@ViewBag.rezervasyonInfo.VarisAdi</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Vehicle
+                                            <span>:</span>
+                                        </th>
+                                        <td id="AracIdYaz">@ViewBag.rezervasyonInfo.AracAdi</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Price
+                                            <span>:</span>
+                                        </th>
+                                        <td><strong style="font-size: 1.5rem;" id="FiyatYaz">@ViewBag.rezervasyonInfo.Fiyat</strong></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Pick-up Location
+                                            <span>:</span>
+                                        </th>
+                                        <td id="AlisNoktasiIdYaz"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Drop-off Location
+                                            <span>:</span>
+                                        </th>
+                                        <td id="VarisNoktasiIdYaz"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Vehicle
+                                            <span>:</span>
+                                        </th>
+                                        <td id="AracIdYaz"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 150px;">
+                                            Price
+                                            <span>:</span>
+                                        </th>
+                                        <td><strong style="font-size: 1.5rem;" id="FiyatYaz"></strong></td>
+                                    </tr>
+                                }
                             </table>
                             <div class="col-12 col-md-12 col-lg-12 pt-4" style="text-align: end;">
                                 <button class="btn btn-success p-3" id="rezervasyonYap" type="submit">Rezervasyon Yap</button>

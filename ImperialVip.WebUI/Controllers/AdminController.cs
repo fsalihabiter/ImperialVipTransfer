@@ -86,7 +86,7 @@ namespace ImperialVip.WebUI.Controllers
                 unitOfWork.Complete();
                 string body = "";
 
-                string trBody = "<div style='display: flex; flex-direction: column; align-items: stretch; justify-content: stretch; font-family:arial,helvetica,sans-serif;'>" +
+                string trBody = "<div style='font-family:arial,helvetica,sans-serif;'>" +
                                     "<h3 style='background-color: #19335c; color: #f5b754; padding:30px; text-align: center; font-size: 24px; margin: 0;'>Imperial VIP Transfer</h3>" +
                                     "<h6 style='background-color: #19335c; color: #f5b754; padding-bottom:30px; text-align: center; font-size: 15px; font-weight: 300; margin: 0;'>Rezervasyon Detayları</h6>" +
                                     "<div>" +
@@ -96,7 +96,7 @@ namespace ImperialVip.WebUI.Controllers
                                     "</div>" +
                                 "</div>";
 
-                string enBody = "<div style='display: flex; flex-direction: column; align-items: stretch; justify-content: stretch; font-family:arial,helvetica,sans-serif;'>" +
+                string enBody = "<div style='font-family:arial,helvetica,sans-serif;'>" +
                                     "<h3 style='background-color: #19335c; color: #f5b754; padding:30px; text-align: center; font-size: 24px; margin: 0;'>Imperial VIP Transfer</h3>" +
                                     "<h6 style='background-color: #19335c; color: #f5b754; padding-bottom:30px; text-align: center; font-size: 15px; font-weight: 300; margin: 0;'>Reservation Details</h6>" +
                                     "<div>" +
@@ -106,7 +106,7 @@ namespace ImperialVip.WebUI.Controllers
                                     "</div>" +
                                 "</div>";
 
-                string deBody = "<div style='display: flex; flex-direction: column; align-items: stretch; justify-content: stretch; font-family:arial,helvetica,sans-serif;'>" +
+                string deBody = "<div style='font-family:arial,helvetica,sans-serif;'>" +
                                     "<h3 style='background-color: #19335c; color: #f5b754; padding:30px; text-align: center; font-size: 24px; margin: 0;'>Imperial VIP Transfer</h3>" +
                                     "<h6 style='background-color: #19335c; color: #f5b754; padding-bottom:30px; text-align: center; font-size: 15px; font-weight: 300; margin: 0;'>Reservierungsdetails</h6>" +
                                     "<div>" +
@@ -116,7 +116,7 @@ namespace ImperialVip.WebUI.Controllers
                                     "</div>" +
                                 "</div>";
 
-                string ruBody = "<div style='display: flex; flex-direction: column; align-items: stretch; justify-content: stretch; font-family:arial,helvetica,sans-serif;'>" +
+                string ruBody = "<div style='font-family:arial,helvetica,sans-serif;'>" +
                                     "<h3 style='background-color: #19335c; color: #f5b754; padding:30px; text-align: center; font-size: 24px; margin: 0;'>Imperial VIP Transfer</h3>" +
                                     "<h6 style='background-color: #19335c; color: #f5b754; padding-bottom:30px; text-align: center; font-size: 15px; font-weight: 300; margin: 0;'>Подробности бронирования</h6>" +
                                     "<div>" +

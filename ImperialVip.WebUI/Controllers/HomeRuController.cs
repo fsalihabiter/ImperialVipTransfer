@@ -41,40 +41,6 @@ namespace ImperialVip.WebUI.Controllers
             }
         }
 
-        public ActionResult Slider()
-        {
-            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
-            {
-                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().ToList();
-                List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
-
-                SliderRezervDTO rezerv = new SliderRezervDTO
-                {
-                    AlisNoktasi = new SelectList(alisNoktalari, "Id", "BolgeAdi"),
-                    VarisNoktasi = new SelectList(varisNoktalari, "Id", "BolgeAdi")
-                };
-
-
-                ViewBag.slider = unitOfWork.Icerikler.Find(s => s.IcerikKategoriId == 1 && s.DilId == 4);
-                ViewBag.images = unitOfWork.Icerikler.FindAll(s => s.IcerikKategoriId == 11).ToList();
-
-                return PartialView("_Slider", rezerv);
-            }
-        }
-
-        [HttpPost]
-        public ActionResult Slider(SliderRezervDTO rezerv)
-        {
-            RezervasyonDTO model = new RezervasyonDTO
-            {
-                AlisNoktasiId = rezerv.AlisNoktasiId,
-                VarisNoktasiId = rezerv.VarisNoktasiId,
-                YetiskinSayisi = rezerv.YetiskinSayisi,
-                CocukSayisi = rezerv.CocukSayisi
-            };
-            return RedirectToAction("Reservation", "HomeRu", model);
-        }
-
         public ActionResult Regions()
         {
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
@@ -150,20 +116,24 @@ namespace ImperialVip.WebUI.Controllers
                                         "</tr>" +
                                     "</table>" +
                                 "</div>";
-                MailHelper.SendBizeUlasinMail(body);
-                BizUlasinMail mail = new BizUlasinMail
+                var mailGonderildiMi = MailHelper.SendBizeUlasinMail(body);
+
+                if (mailGonderildiMi)
                 {
-                    AdSoyad = bizeUlasinModel.AdSoyad,
-                    Telefon = bizeUlasinModel.Telefon,
-                    Email = bizeUlasinModel.Email,
-                    Mesaj = bizeUlasinModel.Mesaj,
-                    GonderimTarihi = DateTime.Now
-                };
+                    BizUlasinMail mail = new BizUlasinMail
+                    {
+                        AdSoyad = bizeUlasinModel.AdSoyad,
+                        Telefon = bizeUlasinModel.Telefon,
+                        Email = bizeUlasinModel.Email,
+                        Mesaj = bizeUlasinModel.Mesaj,
+                        GonderimTarihi = DateTime.Now
+                    };
+                    unitOfWork.BizeUlasinMailler.Insert(mail);
+                    unitOfWork.Complete();
 
-                unitOfWork.BizeUlasinMailler.Insert(mail);
-                unitOfWork.Complete();
-
-                return RedirectToAction("Index", "HomeRu");
+                    return Json(new { success = true, message = "Ваше сообщение было успешно доставлено." }, JsonRequestBehavior.AllowGet);
+                }
+                return Json(new { success = false, message = "Ваше сообщение не удалось доставить из-за проблемы." }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -179,22 +149,21 @@ namespace ImperialVip.WebUI.Controllers
 
         [HttpPost]
         [Route("ru/Comments")]
-        public ActionResult Comments(string AdSoyad, int MemnuniyetOyu, string Yorum)
+        public ActionResult Comments(YorumViewModel yorumModel)
         {
             using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
             {
                 Yorum yorum = new Yorum
                 {
-                    AdSoyad = AdSoyad,
-                    MemnuniyetOyu = MemnuniyetOyu,
-                    YorumDetay = Yorum,
+                    AdSoyad = yorumModel.AdSoyad,
+                    MemnuniyetOyu = yorumModel.MemnuniyetOyu,
+                    YorumDetay = yorumModel.Yorum,
                     YorumTarihi = DateTime.Now
                 };
-
                 unitOfWork.Yorumlar.Insert(yorum);
                 unitOfWork.Complete();
 
-                return RedirectToAction("Index", "HomeRu");
+                return Json(new { success = true, message = "Ваш комментарий успешно отправлен." }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -235,6 +204,79 @@ namespace ImperialVip.WebUI.Controllers
                 List<Icerik> resimler = unitOfWork.Icerikler.FindAll(g => g.IcerikKategoriId == 9).ToList();
                 ViewBag.kategori = unitOfWork.Kategoriler.Find(k => k.Id == 9);
                 return View(resimler);
+            }
+        }
+
+        public ActionResult Slider()
+        {
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().ToList();
+                List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
+
+                SliderRezervDTO rezerv = new SliderRezervDTO
+                {
+                    AlisNoktasi = new SelectList(alisNoktalari, "Id", "BolgeAdi"),
+                    VarisNoktasi = new SelectList(varisNoktalari, "Id", "BolgeAdi")
+                };
+
+
+                ViewBag.slider = unitOfWork.Icerikler.Find(s => s.IcerikKategoriId == 1 && s.DilId == 4);
+                ViewBag.images = unitOfWork.Icerikler.FindAll(s => s.IcerikKategoriId == 11).ToList();
+
+                return PartialView("_Slider", rezerv);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Slider(SliderRezervDTO rezerv)
+        {
+            RezervasyonViewModel rezervasyonModel = new RezervasyonViewModel();
+
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                List<Arac> araclar = unitOfWork.Araclar.GetAll().ToList();
+                List<Bolge> alisNoktalari = unitOfWork.Bolgeler.GetAll().OrderBy(c => c.Id).ToList();
+                List<Bolge> varisNoktalari = unitOfWork.Bolgeler.FindAll(a => a.AlisNoktasiMi == false).OrderBy(c => c.BolgeAdi).ToList();
+
+                rezervasyonModel.Arac = new SelectList(araclar, "Id", "AracAdi");
+                rezervasyonModel.AlisNoktasi = new SelectList(alisNoktalari, "Id", "BolgeAdi", rezerv.AlisNoktasiId);
+                rezervasyonModel.VarisNoktasi = new SelectList(varisNoktalari, "Id", "BolgeAdi", rezerv.VarisNoktasiId);
+                rezervasyonModel.YetiskinSayisi = rezerv.YetiskinSayisi;
+                rezervasyonModel.CocukSayisi = rezerv.CocukSayisi;
+
+                List<Otel> oteller = unitOfWork.Oteller.GetAll().ToList();
+                ViewBag.rezervasyonInfo = FiyatBelirleSlider(rezerv.AlisNoktasiId, rezerv.VarisNoktasiId);
+                ViewBag.Oteller = oteller;
+            }
+            return View("Reservation", rezervasyonModel);
+        }
+
+        public SliderToRezervationInfoViewModel FiyatBelirleSlider(int alisNoktasiId, int varisNoktasiId)
+        {
+            using (var unitOfWork = new UnitOfWork(new ImperialDatabaseContext()))
+            {
+                SliderToRezervationInfoViewModel info = new SliderToRezervationInfoViewModel();
+
+                BolgeDetayViewModel model = unitOfWork.BolgeAracFiyatlari.BolgeleriGetir(x => x.AracId == 1).Where(f => f.BolgeId == alisNoktasiId).FirstOrDefault();
+
+                if (model != null)
+                {
+                    info.AlisAdi = model.BolgeAdi;
+                    info.VarisAdi = "Antalya";
+                }
+                else
+                {
+                    model = unitOfWork.BolgeAracFiyatlari.BolgeleriGetir(x => x.AracId == 1).Where(f => f.BolgeId == varisNoktasiId).FirstOrDefault();
+
+                    info.AlisAdi = "Antalya";
+                    info.VarisAdi = model.BolgeAdi;
+                }
+
+                info.AracAdi = model.AracAdi;
+                info.Fiyat = model.Fiyat.ToString() + " €";
+
+                return info;
             }
         }
 
@@ -347,12 +389,8 @@ namespace ImperialVip.WebUI.Controllers
                                             $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{rezervasyonBilgileri.Email}</td>" +
                                         "</tr>" +
                                         "<tr style='line-height: 35px; text-align: left;'>" +
-                                            "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Специальное примечание : </strong></td>" +
-                                            $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{rezervasyonBilgileri.OzelNot}</td>" +
-                                        "</tr>" +
-                                        "<tr style='line-height: 35px; text-align: left;'>" +
-                                            "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Название отеля : </strong></td>" +
-                                            $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{rezervasyonBilgileri.OtelAdi}</td>" +
+                                            "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Имена участников : </strong></td>" +
+                                            $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{kisiIsimleri}</td>" +
                                         "</tr>" +
                                         "<tr style='line-height: 35px; text-align: left;'>" +
                                             "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Место получения : </strong></td>" +
@@ -365,6 +403,14 @@ namespace ImperialVip.WebUI.Controllers
                                         "<tr style='line-height: 35px; text-align: left;'>" +
                                             "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Транспортное средство : </strong></td>" +
                                             $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{arac.AracAdi}</td>" +
+                                        "</tr>" +
+                                        "<tr style='line-height: 35px; text-align: left;'>" +
+                                            "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Цена : </strong></td>" +
+                                            $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{rezervasyonBilgileri.Fiyat}</td>" +
+                                        "</tr>" +
+                                        "<tr style='line-height: 35px; text-align: left;'>" +
+                                            "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Название отеля : </strong></td>" +
+                                            $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{rezervasyonBilgileri.OtelAdi}</td>" +
                                         "</tr>" +
                                         "<tr style='line-height: 35px; text-align: left;'>" +
                                             "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Дата прибытия : </strong></td>" +
@@ -387,12 +433,12 @@ namespace ImperialVip.WebUI.Controllers
                                             $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{Convert.ToInt32(rezervasyonBilgileri.YetiskinSayisi)} Adults - {Convert.ToInt32(rezervasyonBilgileri.CocukSayisi)} Children </td>" +
                                         "</tr>" +
                                         "<tr style='line-height: 35px; text-align: left;'>" +
-                                            "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Имена участников : </strong></td>" +
-                                            $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{kisiIsimleri}</td>" +
-                                        "</tr>" +
-                                        "<tr style='line-height: 35px; text-align: left;'>" +
                                             "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Количество детских сидений : </strong></td>" +
                                             $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{Convert.ToInt32(rezervasyonBilgileri.CocukKoltuguSayisi)}</td>" +
+                                        "</tr>" +
+                                        "<tr style='line-height: 35px; text-align: left;'>" +
+                                            "<td style='border-bottom: 1px solid #19335c; width: 150px; padding-left: 10px;'><strong>Специальное примечание : </strong></td>" +
+                                            $"<td style='border-bottom: 1px solid #19335c; padding-left: 10px;'>{rezervasyonBilgileri.OzelNot}</td>" +
                                         "</tr>" +
                                     "</table>" +
                                 "</div>";

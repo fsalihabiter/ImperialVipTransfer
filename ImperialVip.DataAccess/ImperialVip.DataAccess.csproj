@@ -107,6 +107,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Compile Include="ViewModels\SliderToRezervationInfoViewModel.cs" />
     <Compile Include="ViewModels\YorumViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
