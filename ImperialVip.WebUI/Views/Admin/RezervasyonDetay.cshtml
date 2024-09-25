@@ -128,14 +128,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                        @if (!Model.RezervasyonOnay)
-                        {
-                            <div class="col-12 col-md-12 col-lg-12 border-top pt-4" style="text-align: end;">
-                                <a href="@Url.Action("RezervasyonOnay", "Admin", new { id = Model.Id })" class="btn btn-success p-15" type="submit">Rezervasyon Onayla</a>
-                                <a href="javascript:;" class="btn btn-danger font-weight-bold p-15 ms-3" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#rezervSilModal" onclick="deleteOtel('@Model.Id')"> Sil </a>
-                            </div>
-                        }
                         <div class="col-12 col-md-12 col-lg-12 border-top pt-4" style="text-align: end;">
+                            @if (!Model.RezervasyonOnay)
+                            {
+                                <a href="@Url.Action("RezervasyonOnay", "Admin", new { id = Model.Id })" class="btn btn-success p-15" type="submit">Rezervasyon Onayla</a>
+                            }
+                            <a href="javascript:;" class="btn btn-danger font-weight-bold p-15 ms-3" data-toggle="tooltip" data-original-title="Sil" data-bs-toggle="modal" data-bs-target="#rezervSilModal" onclick="deleteOtel('@Model.Id')"> Sil </a>
                         </div>
                     </div>
                 </div>

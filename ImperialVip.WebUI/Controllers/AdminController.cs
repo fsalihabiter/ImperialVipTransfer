@@ -166,7 +166,7 @@ namespace ImperialVip.WebUI.Controllers
                 unitOfWork.Rezervasyonlar.Delete(rezerv);
                 unitOfWork.Complete();
 
-                return RedirectToAction("YorumIslemleri");
+                return RedirectToAction("RezervasyonIslemleri");
             }
         }
 
